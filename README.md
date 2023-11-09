@@ -39,7 +39,7 @@ function verifySession() {
     // verify session-token
     axios.get('/verify-session', {
         headers: {
-            token: session-token
+            "token" = session-token
         }
     })
     .then(function (response) {
@@ -90,18 +90,79 @@ User commands:
 
 ### More formally:
 
-- `createUser(string username, string password) -> (string session-token)`
+- `POST /create-user`
+
+  which includes:
+
+  ```
+  body = {
+      "username" = "...",
+      "password" = "..."
+  }
+  ```
+
+  The response will be in the form:
+
+  ```
+  {
+      "status" = ..., // 201 created, hopefully
+      "session-token" : ...
+  }
+  ```
+
+  The backend will:
+
   - ensure that username isn't already taken
   - create item in mongoDB collection: username, hashed (+ salted?) password, empty todo list item data structure
-  - return a session token.
-- `loginUser(string username, string password) -> (string session-token)`
-  - hash (+ salt?) password, check for existence of user and matching password in DB
-  - in memory, a random UUID serves as the session token, making to the UUID of the user's data in the DB
+  - map new session token to the id/location of the user's todo list in the DB
+  - return the session token
 
-WIP
+- `POST /login`
+
+  Almost identical to `/create-user`, login is only called when the React application determines that the user doesn't have a valid session token.
+
+- `GET /verify-token`
+
+  which includes:
+
+  ```
+  headers = {
+      "token" = "..."
+  }
+  ```
+
+- `GET /todolist`
+  Which includes the session token in the request headers, as above.
+
+  The response:
+
+  ```
+  {
+    "id" = ..., // unique id for each item, use as react key
+    "name" = ...,
+    "due" = ... // ISO 8601
+  }
+  ```
+
+- `POST /todoitem`
+  with:
+
+  ```
+  body = {
+    "id" = ...,
+    "name" = ...,
+    "due" = ... // ISO 8601
+  }
+  ```
+
+  _Potential Issue:_ MongoDB assigns a random ID to every item, thus we cannot use React to assign IDs for each todo list item. Yet, react requires unique keys for each item in a list. We could consider `POST`ing the new todo item, then fetching the list again, but this could potentially be slow.
+
+  Another solution would be to have React assign an interim, random key to the new item. We could then develop another deterministic way of sorting and displaying the todo list, potentially ranked by due date.
 
 ## Resources:
 
 [DigitalOcean: How To Add Login Authentication to React Applications](https://www.digitalocean.com/community/tutorials/how-to-add-login-authentication-to-react-applications#step-2-creating-a-token-api)
 
 [Protected Routes and Authentication with React Router](https://ui.dev/react-router-protected-routes-authentication)
+
+[Wikipedia: ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
