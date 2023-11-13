@@ -161,6 +161,8 @@ User commands:
 
 ## Resources:
 
+[The Odin Project: Protected routes and navigation](https://www.theodinproject.com/lessons/node-path-react-new-react-router#protected-routes-and-navigation)
+
 [DigitalOcean: How To Add Login Authentication to React Applications](https://www.digitalocean.com/community/tutorials/how-to-add-login-authentication-to-react-applications#step-2-creating-a-token-api)
 
 [Protected Routes and Authentication with React Router](https://ui.dev/react-router-protected-routes-authentication)
