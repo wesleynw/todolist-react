@@ -5,6 +5,6 @@ services:
     image: mongo:latest
     restart: always
     ports:
-      - 8081:27017
+      - 27017:27017
     volumes:
       - ./data:/data/db

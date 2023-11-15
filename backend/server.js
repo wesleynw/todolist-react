@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
-// middleware to parse request bodies as JSON
+const { body, query, validationResult } = require("express-validator");
+
 app.use(express.json());
 
 const mongoose = require("mongoose");
@@ -10,14 +11,7 @@ mongoose.set("strictQuery", false);
 
 const bcrypt = require("bcrypt");
 
-// main().catch((err) => console.log(err));
-// async function main() {
-//   await mongoose.connect(mongoDB);
-// }
-
-// Wait for database to connect, logging an error if there is a problem
 const mongoDB = "mongodb://127.0.0.1:8081/todo-backend";
-
 var connectWithRetry = async function () {
   try {
     await mongoose.connect(mongoDB);
@@ -40,48 +34,63 @@ const UserSchema = new mongoose.Schema({
 // Compile model from schema
 const User = mongoose.model("Users", UserSchema);
 
-app.post("/signup", async function (req, res) {
-  // ensure databse is connected
-  if (mongoose.connection.readyState != 1) {
-    return res.sendStatus(500);
-  }
-
-  body = req.body;
-  // need to implement error checking for badly formatted requests
-  // console.log(User.exists({username: body.username}));
-
-  bcrypt.genSalt(10, (err, salt) => {
-    if (err != null) {
-      return res.sendStatus(500);
-    }
-    // use salt to hash password
-    bcrypt.hash(body.password, salt, async function (err, hash) {
-      if (err != null) {
-        return res.sendStatus(500);
-      }
-      // Store hash in the database
-      let newUser = new User({
-        username: body.username,
-        password: hash,
-        salt: salt,
+app.post(
+  "/signup",
+  body("username")
+    .notEmpty()
+    .trim()
+    .custom(async (username) => {
+      const count = await User.find({ username: username }).countDocuments();
+      return count == 0;
+    })
+    .withMessage("username already in use"),
+  body("password").notEmpty(),
+  body("password_confirmation")
+    .notEmpty()
+    .custom((value, { req }) => {
+      return value == req.body.password;
+    })
+    .withMessage("passwords do not match"),
+  async function (req, res) {
+    if (mongoose.connection.readyState != 1) {
+      return res.status(500).send({
+        errors: {
+          msg: "database error",
+        },
       });
+    }
 
-      await newUser.validate();
-
-      let result = await newUser.save();
-
-      if (result != newUser) {
-        console.log("db error");
-        // next(result);
-        return res.sendStatus(500);
+    try {
+      const result = validationResult(req);
+      if (!result.isEmpty()) {
+        return res.status(422).send({ errors: result.array() });
       }
 
-      console.log(`created user ${body.username}`);
-      return res.sendStatus(201);
-    });
-  });
-  // return res.sendStatus(500);
-});
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(req.body.password, salt, async function (err, hash) {
+          // Store hash in the database
+          let newUser = new User({
+            username: req.body.username,
+            password: hash,
+            salt: salt,
+          });
+
+          // await newUser.validate();
+          let result = await newUser.save();
+
+          if (result != newUser) {
+            throw new Error("db error");
+          }
+
+          console.log(`created user ${req.body.username}`);
+          return res.sendStatus(201);
+        });
+      });
+    } catch (err) {
+      res.sendStatus(500);
+    }
+  }
+);
 
 app.get("/test-get", async function (req, res) {
   res.send("it is working lol");
