@@ -31,7 +31,7 @@ const UserSchema = new mongoose.Schema({
   password: Buffer,
   salt: Buffer,
   todolist: Object,
-  token: uuidv4,
+  token: mongoose.Schema.Types.UUID,
 });
 
 // Compile model from schema
@@ -95,6 +95,40 @@ app.post(
     } catch (err) {
       res.sendStatus(500);
     }
+  }
+);
+
+app.get(
+  "/login",
+  body("email").notEmpty().isEmail(),
+  body("password").notEmpty(),
+  async function (req, res) {
+    if (mongoose.connection.readyState != 1) {
+      return res.status(500).send({
+        errors: {
+          msg: "database error",
+        },
+      });
+    }
+
+    const result = validationResult(req);
+    console.log(result);
+    if (!result.isEmpty()) {
+      return res.status(422).send({ errors: result.array() });
+    }
+
+    // let user = await User.exists
+
+    let user = await User.findOne({ username: body.username }).lean();
+    if (user == null) {
+      return res.status(422).send({ errors: "user does not exist" });
+    }
+    // how to check if query is null
+
+    bcrypt.compare(user.password, hash, function (err, result) {
+      // result == true
+      console.log(result == true);
+    });
   }
 );
 
