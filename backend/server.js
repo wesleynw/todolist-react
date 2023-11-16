@@ -10,8 +10,9 @@ const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
 
 const bcrypt = require("bcrypt");
+const { v4: uuidv4 } = require("uuid");
 
-const mongoDB = "mongodb://127.0.0.1:8081/todo-backend";
+const mongoDB = "mongodb://127.0.0.1:27017/todo-backend";
 var connectWithRetry = async function () {
   try {
     await mongoose.connect(mongoDB);
@@ -25,10 +26,12 @@ connectWithRetry();
 
 // Define a schema
 const UserSchema = new mongoose.Schema({
-  username: String,
+  name: String,
+  email: String,
   password: Buffer,
   salt: Buffer,
-  // todolist: mongoose.Schema.Types.ObjectId,
+  todolist: Object,
+  token: uuidv4,
 });
 
 // Compile model from schema
@@ -36,14 +39,16 @@ const User = mongoose.model("Users", UserSchema);
 
 app.post(
   "/signup",
-  body("username")
+  body("name").notEmpty().trim().escape().withMessage("invalid name"),
+  body("email")
     .notEmpty()
-    .trim()
-    .custom(async (username) => {
-      const count = await User.find({ username: username }).countDocuments();
-      return count == 0;
-    })
-    .withMessage("username already in use"),
+    .isEmail()
+    .custom(async (value) => {
+      const count = await User.find({ email: value }).countDocuments();
+      if (count != 0) {
+        throw new Error("username already in use");
+      }
+    }),
   body("password").notEmpty(),
   body("password_confirmation")
     .notEmpty()
@@ -60,12 +65,13 @@ app.post(
       });
     }
 
-    try {
-      const result = validationResult(req);
-      if (!result.isEmpty()) {
-        return res.status(422).send({ errors: result.array() });
-      }
+    const result = validationResult(req);
+    console.log(result);
+    if (!result.isEmpty()) {
+      return res.status(422).send({ errors: result.array() });
+    }
 
+    try {
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(req.body.password, salt, async function (err, hash) {
           // Store hash in the database
