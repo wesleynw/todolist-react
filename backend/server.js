@@ -77,8 +77,11 @@ app.post(
           // Store hash in the database
           let newUser = new User({
             username: req.body.username,
+            email: req.body.email,
             password: hash,
             salt: salt,
+            token: uuidv4(),
+            todolist: {},
           });
 
           // await newUser.validate();
