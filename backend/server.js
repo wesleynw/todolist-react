@@ -30,7 +30,7 @@ const UserSchema = new mongoose.Schema({
   email: String,
   password: String,
   token: mongoose.Schema.Types.UUID,
-  todolist: Object,
+  todolist: [],
 });
 
 // Compile model from schema
@@ -88,7 +88,7 @@ app.post(
         }
 
         console.log(`created user ${req.body.email}`);
-        return res.sendStatus(201);
+        return res.status(201).send({ token: newUser.token });
       });
     } catch (err) {
       console.log(err);
@@ -133,6 +133,25 @@ app.get(
         .status(422)
         .send({ status: "not authenticated", error: "invalid password" });
     });
+  }
+);
+
+app.get(
+  "/get-todo",
+  body("token").notEmpty().isUUID(),
+  async function (req, res) {
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+      return res.status(422).send({ errors: result.array() });
+    }
+
+    const user = await User.findOne({ token: req.body.token }).exec();
+    if (user == null) {
+      return res.status(401).send({ errors: "session token invalid" });
+    }
+    if (user.token == req.body.token) {
+      return res.send(user.todolist);
+    }
   }
 );
 
