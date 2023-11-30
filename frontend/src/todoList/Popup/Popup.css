@@ -1,0 +1,53 @@
+
+p {
+    color: black;
+}
+section {
+    width: 25%;
+    background-color: rgb(255, 255, 255, .61);
+    padding: 3%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: 'Be Vietnam Pro';
+}
+
+
+  button:focus,
+  button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+  }
+
+  button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #1a1a1a;
+    cursor: pointer;
+    transition: border-color 0.25s;
+    width: 100%;
+  }
+
+  #same-line {
+    display: flex;
+    gap: 5px;
+  }
+
+  #ip {
+    background-color: #F3F3F3;
+    border-radius: 25px;
+    border-color:#F3F3F3;
+    padding: 20px; 
+    width: 90%;
+    height: 5px;
+  }
+
+  
+  
+
+  
+  

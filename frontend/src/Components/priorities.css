@@ -1,0 +1,17 @@
+#priorities {
+    display: flex;
+    gap: 2px;
+}
+.p1, .p2, .p3, .p0 {
+    border-radius: 25px;
+    border-color:#F3F3F3;
+    padding: 20px; 
+    height: 5px;
+}
+
+.p0 {
+    background-color: #F3F3F3;
+    color: black;
+}
+
+    
