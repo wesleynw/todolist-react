@@ -10,9 +10,7 @@
 .btn {
     font-size: 12px;
     background-color: rgb(183, 208, 202);
-    border-radius: 2em;
-    height: 3em;
-    width: 3em;
+    padding: 10px; 
     border-radius: 50%;
     color: white;
 }
