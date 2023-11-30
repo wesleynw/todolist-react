@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react'
-import styles from "./day.css"
+import './day.css'
 
 
 // return a circular button that represents a day
@@ -8,31 +8,19 @@ import styles from "./day.css"
 // If clicked, store the day has been clicked as 0 if not, and 1 if clicked.
 
 
-class Day extends React.Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            count: 0,
-            addend: 0 // either 1, 0, or -1
-        }
-    }
-
-    toggleClick= () => {
-        this.setState(prevState => ({
-            addend: prevState.addend === 1 ? 0 : 1
-        }))
-    }
-
-    render() {
+const Day = () => {
         return (
-            <div>
-                <button onClick={this.toggleClick}>
-                    <p>props.dow</p>
-                </button>
-                <span>{this.state.count + this.state.addend}</span>
-            </div>
+                <div id = "days">
+                    <button class = "btn">Mo</button>
+                    <button class = "btn">Tu</button>
+                    <button class = "btn">We</button>
+                    <button class = "btn">Th</button>
+                    <button class = "btn">Fr</button>
+                    <button class = "btn">Sa</button>
+                    <button class = "btn">Su</button>
+                </div>
+                
         );
-    }
-}
+};
 
 export default Day;
