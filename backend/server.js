@@ -28,10 +28,9 @@ connectWithRetry();
 const UserSchema = new mongoose.Schema({
   name: String,
   email: String,
-  password: Buffer,
-  salt: Buffer,
-  todolist: Object,
+  password: String,
   token: mongoose.Schema.Types.UUID,
+  todolist: [],
 });
 
 // Compile model from schema
@@ -66,36 +65,33 @@ app.post(
     }
 
     const result = validationResult(req);
-    console.log(result);
     if (!result.isEmpty()) {
       return res.status(422).send({ errors: result.array() });
     }
 
     try {
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(req.body.password, salt, async function (err, hash) {
-          // Store hash in the database
-          let newUser = new User({
-            username: req.body.username,
-            email: req.body.email,
-            password: hash,
-            salt: salt,
-            token: uuidv4(),
-            todolist: {},
-          });
-
-          // await newUser.validate();
-          let result = await newUser.save();
-
-          if (result != newUser) {
-            throw new Error("db error");
-          }
-
-          console.log(`created user ${req.body.username}`);
-          return res.sendStatus(201);
+      bcrypt.hash(req.body.password, 10, async function (err, hash) {
+        // Store hash in the database
+        let newUser = new User({
+          username: req.body.username,
+          email: req.body.email,
+          password: hash,
+          token: uuidv4(),
+          todolist: {},
         });
+
+        await newUser.validate();
+        let result = await newUser.save();
+
+        if (result != newUser) {
+          throw new Error("db error");
+        }
+
+        console.log(`created user ${req.body.email}`);
+        return res.status(201).send({ token: newUser.token });
       });
     } catch (err) {
+      console.log(err);
       res.sendStatus(500);
     }
   }
@@ -115,25 +111,69 @@ app.get(
     }
 
     const result = validationResult(req);
-    console.log(result);
     if (!result.isEmpty()) {
       return res.status(422).send({ errors: result.array() });
     }
 
     // let user = await User.exists
 
-    let user = await User.findOne({ username: body.username }).lean();
+    let user = await User.findOne({ email: req.body.email }).lean();
     if (user == null) {
       return res.status(422).send({ errors: "user does not exist" });
     }
-    // how to check if query is null
 
-    bcrypt.compare(user.password, hash, function (err, result) {
+    bcrypt.compare(req.body.password, user.password, function (err, result) {
       // result == true
-      console.log(result == true);
+      if (result == true) {
+        return res
+          .status(200)
+          .send({ status: "authenticated", token: user.token });
+      }
+      return res
+        .status(422)
+        .send({ status: "not authenticated", error: "invalid password" });
     });
   }
 );
+
+app.get(
+  "/get-todo",
+  body("token").notEmpty().isUUID(),
+  async function (req, res) {
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+      return res.status(422).send({ errors: result.array() });
+    }
+
+    const user = await User.findOne({ token: req.body.token }).exec();
+    if (user == null) {
+      return res.status(401).send({ errors: "session token invalid" });
+    }
+    if (user.token == req.body.token) {
+      return res.send(user.todolist);
+    }
+  }
+);
+
+app.post("/add-todo", body("name").notEmpty(), async function (req, res) {
+  const result = validationResult(req);
+  if (!result.isEmpty()) {
+    return res.status(422).send({ errors: result.array() });
+  }
+
+  const user = await User.findOne({ token: req.body.token }).exec();
+  if (user == null) {
+    return res.status(401).send({ errors: "session token invalid" });
+  }
+  // is this redundant ??
+  if (user.token == req.body.token) {
+    let newItem = [req.body.name, req.body.date];
+    await user.todolist.push(newItem);
+    await user.save();
+
+    return res.sendStatus(201);
+  }
+});
 
 app.get("/test-get", async function (req, res) {
   res.send("it is working lol");
