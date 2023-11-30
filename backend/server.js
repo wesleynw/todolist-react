@@ -155,6 +155,26 @@ app.get(
   }
 );
 
+app.post("/add-todo", body("name").notEmpty(), async function (req, res) {
+  const result = validationResult(req);
+  if (!result.isEmpty()) {
+    return res.status(422).send({ errors: result.array() });
+  }
+
+  const user = await User.findOne({ token: req.body.token }).exec();
+  if (user == null) {
+    return res.status(401).send({ errors: "session token invalid" });
+  }
+  // is this redundant ??
+  if (user.token == req.body.token) {
+    let newItem = [req.body.name, req.body.date];
+    await user.todolist.push(newItem);
+    await user.save();
+
+    return res.sendStatus(201);
+  }
+});
+
 app.get("/test-get", async function (req, res) {
   res.send("it is working lol");
 });
