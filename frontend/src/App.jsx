@@ -4,6 +4,7 @@ import './App.css'
 import Signup from './signup/Signup.jsx'
 import Popup from './todoList/Popup/Popup.jsx'
 import NavBar from './Components/NavBar'
+import MainBody from './todoList/main_body/main_body.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
