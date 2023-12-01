@@ -13,6 +13,12 @@ section {
     font-family: 'Be Vietnam Pro';
 }
 
+#pop-up {
+    position: fixed;
+    top: 20px; 
+    right: 20px; 
+}
+
 
   button:focus,
   button:focus-visible {

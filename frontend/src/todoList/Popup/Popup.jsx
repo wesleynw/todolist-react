@@ -9,7 +9,7 @@ function Popup() {
   return (
     <>
       <link href='https://fonts.googleapis.com/css?family=Be Vietnam Pro' rel='stylesheet'></link>
-      <section>
+      <section id = "pop-up">
         <div id = "same-line">
         <p>Task Name </p> 
         </div>
