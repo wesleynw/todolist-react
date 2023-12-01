@@ -16,7 +16,7 @@ const MainBody = () => {
   return (
     <>
       <TaskManager />
-      <div>
+      <div id = "main-body">
         <h2>Monday</h2>
         <Task name="Task name here" time="1:00" priority="None" />
         <Task name="Hello" time="1:00" priority="High" />
@@ -26,8 +26,8 @@ const MainBody = () => {
         >
           + Create task
         </button>
+        {isPopupVisible && <Popup />} 
       </div>
-      {isPopupVisible && <Popup />} 
     </>
   );
 };
