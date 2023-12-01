@@ -1,6 +1,6 @@
 import React from 'react';
-import './priorities.css'
-
+import './priorities.css';
+import { useState } from 'react';
 
 // return a circular button that represents a day
 // when clicked on, alternate between every click for highlighting dark and light
@@ -8,15 +8,44 @@ import './priorities.css'
 
 
 const Priority = () => {
-        return (
-                <div id = "priorities">
-                    <button class = "p0">None</button>
-                    <button class = "p1">Low</button>
-                    <button class = "p2">Med</button>
-                    <button class = "p3">High</button>
-                </div>
-                
-        );
+  const [selectedPriority, setSelectedPriority] = useState('None');
+
+  const handlePriorityClick = (priority) => {
+    setSelectedPriority(priority === selectedPriority ? 'None' : priority);
+  };
+
+  const getButtonClassName = (priority) => {
+    return selectedPriority === priority ? `p${priority}-clicked` : `p${priority}`;
+  };
+
+  return (
+    <div id="priorities">
+      <button
+        className={getButtonClassName('None')}
+        onClick={() => handlePriorityClick('None')}
+      >
+        None
+      </button>
+      <button
+        className={getButtonClassName('Low')}
+        onClick={() => handlePriorityClick('Low')}
+      >
+        Low
+      </button>
+      <button
+        className={getButtonClassName('Med')}
+        onClick={() => handlePriorityClick('Med')}
+      >
+        Med
+      </button>
+      <button
+        className={getButtonClassName('High')}
+        onClick={() => handlePriorityClick('High')}
+      >
+        High
+      </button>
+    </div>
+  );
 };
 
 export default Priority;
