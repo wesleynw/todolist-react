@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './Popup.css'
-import Day from '../Day'
+import Day from '../../Components/Day/Day'
 import Priority from '../../Components/Priority'
 
 function Popup() {
@@ -32,7 +32,7 @@ function Popup() {
         </div>
           <Day />
         
-        <button>add task</button>
+        <button id = "at">add task</button>
       </section>
      
     </>
