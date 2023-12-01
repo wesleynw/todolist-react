@@ -11,6 +11,9 @@ const NavBar = () => {
                 <li>
                     <Link to='/todoList/Popup'>Pop Up</Link>
                 </li>
+                <li>
+                    <Link to='/todoList/main_body'>Main Page</Link>
+                </li>
             </ul>
         </nav>
     );

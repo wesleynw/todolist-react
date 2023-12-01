@@ -3,7 +3,7 @@ p {
     color: black;
 }
 section {
-    width: 25%;
+    width: 20%;
     background-color: rgb(255, 255, 255, .61);
     padding: 3%;
     display: flex;
@@ -11,6 +11,12 @@ section {
     border-radius: 10px;
     font-size: 14px;
     font-family: 'Be Vietnam Pro';
+}
+
+#pop-up {
+    position: fixed;
+    top: 20px; 
+    right: 20px; 
 }
 
 
