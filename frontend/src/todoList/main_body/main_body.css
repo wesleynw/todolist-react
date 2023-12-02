@@ -1,4 +1,7 @@
 .shifted-content {
-  margin-left: 300px; /* Adjust the value based on your design */
-  transition: margin-left 0.3s ease; /* Optional: Add a smooth transition effect */
+  width: 70%;
+}
+
+.main-body {
+  width: 100%;
 }

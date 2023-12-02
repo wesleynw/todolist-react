@@ -9,15 +9,11 @@ function Popup({ onClose }) {
   const [taskPriority, setTaskPriority] = useState('None');
 
   const handleAddTask = () => {
-    // Perform any additional logic here, e.g., sending data to the parent component
-    // You can also pass the task data to the parent component if needed
-
-    // Reset input fields
+    
     setTaskName('');
     setTaskTime('');
     setTaskPriority('None');
 
-    // Close the Popup
     onClose();
   };
 
@@ -33,8 +29,6 @@ function Popup({ onClose }) {
           type="text"
           id="ip"
           placeholder="Clean Room"
-          value={taskName}
-          onChange={(e) => setTaskName(e.target.value)}
           required
         />
 
@@ -45,15 +39,13 @@ function Popup({ onClose }) {
           type="text"
           id="ip"
           placeholder="1:00"
-          value={taskTime}
-          onChange={(e) => setTaskTime(e.target.value)}
           required
         />
 
         <div id="same-line">
           <p>Priority </p>
         </div>
-        <Priority onPriorityChange={(priority) => setTaskPriority(priority)} />
+        <Priority />
 
         <div id="same-line">
           <p>Days to work </p>
