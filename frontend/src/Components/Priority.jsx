@@ -7,11 +7,12 @@ import { useState } from 'react';
 // If clicked, store the day has been clicked as 0 if not, and 1 if clicked.
 
 
-const Priority = () => {
+const Priority = ({setTask}) => {
   const [selectedPriority, setSelectedPriority] = useState('None');
 
   const handlePriorityClick = (priority) => {
     setSelectedPriority(priority === selectedPriority ? 'None' : priority);
+    setTask[2] = priority;
   };
 
   const getButtonClassName = (priority) => {

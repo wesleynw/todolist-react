@@ -3,19 +3,28 @@ import './Popup.css';
 import Day from '../../Components/Day/Day';
 import Priority from '../../Components/Priority';
 
-function Popup({ onClose }) {
+function Popup({ onClose , add, task }) {
   const [taskName, setTaskName] = useState('');
   const [taskTime, setTaskTime] = useState('');
-  const [taskPriority, setTaskPriority] = useState('None');
 
   const handleAddTask = () => {
+    // Here you can access taskName, taskTime, and taskPriority
+    console.log('Task Name:', taskName);
+    console.log('Task Time:', taskTime);
+  
+    // Call the provided functions
+    console.log(taskName.value);
+    if (taskName != '') {
+      task[0] = taskName;
+      task[1] = taskTime;
     
-    setTaskName('');
-    setTaskTime('');
-    setTaskPriority('None');
-
+      add();
+    }
+  
+    // Close the popup
     onClose();
   };
+  
 
   return (
     <>
@@ -30,6 +39,8 @@ function Popup({ onClose }) {
           id="ip"
           placeholder="Clean Room"
           required
+          value={taskName}
+          onChange={(e) => setTaskName(e.target.value)}
         />
 
         <div id="same-line">
@@ -40,12 +51,16 @@ function Popup({ onClose }) {
           id="ip"
           placeholder="1:00"
           required
+          value={taskTime}
+          onChange={(e) => setTaskTime(e.target.value)}
         />
 
         <div id="same-line">
           <p>Priority </p>
         </div>
-        <Priority />
+        <Priority
+          setTask = {task}
+        />
 
         <div id="same-line">
           <p>Days to work </p>

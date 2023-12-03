@@ -7,7 +7,8 @@ import TaskManager from '../../Components/Task/TaskManager.jsx';
 const MainBody = () => {
   // State to manage the visibility of the Popup
   const [isPopupVisible, setPopupVisibility] = useState(false);
-  const [mBWidth, setmBWidth] = useState(1);
+  const [tasks, setTasks] = useState([]);
+  const [newTask, setNewTask] = useState(['new task', '1:00', 'None']);
 
   // Function to toggle the Popup visibility
   const togglePopupVisibility = () => {
@@ -20,26 +21,35 @@ const MainBody = () => {
 
   const addTask = () => {
 
-  }
+    // Add the task to the list or perform other actions
+    setTasks([...tasks, newTask]);
+
+    console.log(newTask);
+
+    // Reset newTask to its initial state
+    setNewTask(['new task', '1:00', 'None']);
+
+    console.log(newTask);
+  };
 
   return (
     <>
-        <div className = {isPopupVisible? "shifted-content" : "main-body"}>
-          <TaskManager />
-          <h2>Monday</h2>
+      <div className={isPopupVisible ? 'shifted-content' : 'main-body'}>
+        <TaskManager />
+        <h2>Monday</h2>
 
-          <Task name="Task name here" time="1:00" priority="None" />
-          <Task name="Hello" time="1:00" priority="High" />
-          
-          <button
-            className="main-body-create-task-button"
-            onClick={togglePopupVisibility}
-          >
-            + Create task
-          </button>
-        </div>
-        {isPopupVisible && <Popup onClose = {setVisibilityFalse}/>} 
-      
+        <Task name="Task name here" time="1:00" priority="None" />
+        <Task name="Hello" time="1:00" priority="High" />
+        {tasks.map((task, index) => (
+          <Task key={index} name={task[0]} time={task[1]} priority={task[2]} />
+        ))}
+        <button className="main-body-create-task-button" onClick={togglePopupVisibility}>
+          + Create task
+        </button>
+      </div>
+      {isPopupVisible && (
+        <Popup onClose={setVisibilityFalse} add={addTask} task = {newTask} />
+      )}
     </>
   );
 };
