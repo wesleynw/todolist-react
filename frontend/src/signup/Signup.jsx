@@ -8,12 +8,11 @@ function Signup() {
 
   return (
     <>
-        <div class="account-container">
+        <div className ="account-container">
           <h2>Create a New Account</h2>
           <form id="createAccountForm">
             <input type="text" id="firstName" placeholder="Name" required/>
             <input type="email" id="email" placeholder="Email Address" required/>
-            <input type="text" id="username" placeholder="Username" required/>
             <input type="password" id="password" placeholder="Password" required/>
             <input type="password" id="confirmPassword" placeholder="Confirm Password" required/>
             <button type="submit" id="createAccountButton">Create Account</button>

@@ -5,6 +5,7 @@ import NavBar from './Components/NavBar'
 import { Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./todoList/dashboard/dashboard.jsx";
 import Cookies from "js-cookie";
+import LogIn from './logIn/LogIn.jsx'
 
 function isAuthed() {
   console.log(Cookies.get("token"));
@@ -29,6 +30,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/todoList/Popup" element={<Popup />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/logIn" element={<LogIn />} />
       </Routes>
     </>
   );
