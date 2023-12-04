@@ -1,10 +1,12 @@
 const express = require("express");
+var cors = require('cors')
 const app = express();
 const port = 3000;
 
 const { body, query, validationResult } = require("express-validator");
 
 app.use(express.json());
+app.use(cors())
 
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
@@ -136,10 +138,8 @@ app.get(
   }
 );
 
-app.get(
-  "/get-todo",
-  body("token").notEmpty().isUUID(),
-  async function (req, res) {
+app.post("/get-todo", body("token").notEmpty().isUUID(), async function (req, res) {
+  
     const result = validationResult(req);
     if (!result.isEmpty()) {
       return res.status(422).send({ errors: result.array() });
@@ -167,7 +167,7 @@ app.post("/add-todo", body("name").notEmpty(), async function (req, res) {
   }
   // is this redundant ??
   if (user.token == req.body.token) {
-    let newItem = [req.body.name, req.body.date];
+    let newItem = [req.body.name, req.body.date, req.body.priority];
     await user.todolist.push(newItem);
     await user.save();
 

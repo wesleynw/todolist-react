@@ -4,4 +4,28 @@
 
 .main-body {
   width: 100%;
+  margin-left: 0;
 }
+
+h1 {
+  font-family: 'Alice';
+  font-weight: normal;
+}
+
+#date {
+  font-family: 'Be Vietnam Pro';
+  font-size: 20px;
+  color: #7E9DA4;
+}
+
+#sort {
+  font-family: 'Be Vietnam Pro';
+  font-size: 16px;
+  color: #7E9DA4;
+}
+
+.one-line {
+  display: flex;
+  gap: 64px;
+}
+
