@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Be Vietnam Pro';
     background-color: #f9f9f9;
     margin: 0;
     padding: 20px;
@@ -8,9 +8,9 @@ body {
   .task-manager {
     width: 100%;
     max-width: 400px;
-    margin: auto;
   }
   
+
   .filter-buttons {
     display: flex;
     justify-content: space-around;
@@ -65,12 +65,17 @@ body {
   }
   
   .task-time {
-    margin-right: 10px;
     font-weight: bold;
+    font-size: 12px;
   }
   
   .task-name {
+    position: absolute;
+    left: 185px;
     flex-grow: 1;
+    font-family: 'Alice';
+    font-size: 17px;
+
   }
 
   .None {
@@ -78,6 +83,7 @@ body {
     height: 15px;
     border-radius: 50%;
     background-color: #f7f5f0;
+    
   }
 
   .Low {
@@ -85,6 +91,7 @@ body {
     height: 15px;
     border-radius: 50%;
     background-color: rgb(221, 173, 120);
+    
   }
 
   .Med {
@@ -92,6 +99,7 @@ body {
     height: 15px;
     border-radius: 50%;
     background-color: rgb(255, 200, 98);
+    
   }
 
   .High {
@@ -99,6 +107,7 @@ body {
     height: 15px;
     border-radius: 50%;
     background-color: #fb896f;
+    
   }
   
   .create-task-button {
