@@ -1,27 +1,37 @@
-import { useState } from 'react'
-import {Routes, Route} from 'react-router-dom';
 import './App.css'
 import Signup from './signup/Signup.jsx'
 import Popup from './todoList/Popup/Popup.jsx'
 import NavBar from './Components/NavBar'
-import MainBody from './todoList/main_body/MainBody'
-import LogIn from './logIn/LogIn.jsx'
+import { Routes, Route, Navigate } from "react-router-dom";
+import Dashboard from "./todoList/dashboard/dashboard.jsx";
+import Cookies from "js-cookie";
+
+function isAuthed() {
+  console.log(Cookies.get("token"));
+  return Cookies.get("token") != undefined;
+}
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [isLoggedIn, changeStatus] = useState(false);
-
   return (
     <>
       <NavBar />
       <Routes>
-        <Route path='/signup' element = {<Signup />} />
-        <Route path = '/todoList/Popup' element = {<Popup/>} />
-        <Route path = '/todoList/main_body' element = {<MainBody/>} />
-        <Route path = '/logIn' element = {<LogIn/>} />
+        <Route
+          path="/"
+          element={
+            isAuthed() ? (
+              <Navigate to="/dashboard" />
+            ) : (
+              <Navigate to="/signup" />
+            )
+          }
+        />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/todoList/Popup" element={<Popup />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,12 +1,10 @@
-import { useState } from 'react'
 import './signup'
 import './styles.css'
 import { Link } from 'react-router-dom';
 
-
 function Signup() {
-  const [count, setCount] = useState(0)
-  const [isLoggedIn, changeStatus] = useState(false);
+  // const [count, setCount] = useState(0)
+  // const [isLoggedIn, changeStatus] = useState(false);
 
   return (
     <>
@@ -23,7 +21,7 @@ function Signup() {
           <Link to='../logIn'>Already have an account? Log in</Link>  
         </div>
     </>
-  )
+  );
 }
 
-export default Signup
+export default Signup;
