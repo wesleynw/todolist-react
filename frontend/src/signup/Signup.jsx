@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './signup'
 import './styles.css'
+import { Link } from 'react-router-dom';
 
 
 function Signup() {
@@ -9,21 +10,17 @@ function Signup() {
 
   return (
     <>
-        <div class="login-container">
-            <h2>Log in to your account</h2>
-            <form id="loginForm">
-            <input type="text" id="email" placeholder="Email Address" required/>
-                <input type="text" id="password" placeholder="Password" required/>
-                <button type="submit" id="continueButton">Continue</button>
-                <p class="terms">
-                By continuing with any of the options below, you agree to our 
-                Terms of Service and have read our Privacy Policy.
-                </p>
-                <div class="separator"></div>
-                <button type="button" class="social-button google">Continue with Google</button>
-                <a href="create_account.html" class="create-account-link">Create a new account</a>  
-            </form>
-       
+        <div class="account-container">
+          <h2>Create a New Account</h2>
+          <form id="createAccountForm">
+            <input type="text" id="firstName" placeholder="Name" required/>
+            <input type="email" id="email" placeholder="Email Address" required/>
+            <input type="text" id="username" placeholder="Username" required/>
+            <input type="password" id="password" placeholder="Password" required/>
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" required/>
+            <button type="submit" id="createAccountButton">Create Account</button>
+          </form>
+          <Link to='../logIn'>Already have an account? Log in</Link>  
         </div>
     </>
   )

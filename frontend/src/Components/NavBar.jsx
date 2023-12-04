@@ -14,6 +14,9 @@ const NavBar = () => {
                 <li>
                     <Link to='/todoList/main_body'>Main Page</Link>
                 </li>
+                <li>
+                    <Link to='/logIn'>Log in</Link>
+                </li>
             </ul>
         </nav>
     );
