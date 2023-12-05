@@ -1,12 +1,12 @@
 const express = require("express");
-var cors = require('cors')
+var cors = require("cors");
 const app = express();
 const port = 3000;
 
-const { body, query, validationResult } = require("express-validator");
+const { header, body, validationResult } = require("express-validator");
 
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
@@ -39,7 +39,7 @@ const UserSchema = new mongoose.Schema({
 const User = mongoose.model("Users", UserSchema);
 
 app.post(
-  "/signup",
+  "/create-account",
   body("name").notEmpty().trim().escape().withMessage("invalid name"),
   body("email")
     .notEmpty()
@@ -138,18 +138,20 @@ app.get(
   }
 );
 
-app.post("/get-todo", body("token").notEmpty().isUUID(), async function (req, res) {
-  
+app.get(
+  "/get-todo",
+  header("token").notEmpty().isUUID(),
+  async function (req, res) {
     const result = validationResult(req);
     if (!result.isEmpty()) {
       return res.status(422).send({ errors: result.array() });
     }
 
-    const user = await User.findOne({ token: req.body.token }).exec();
+    const user = await User.findOne({ token: req.headers.token }).exec();
     if (user == null) {
       return res.status(401).send({ errors: "session token invalid" });
     }
-    if (user.token == req.body.token) {
+    if (user.token == req.headers.token) {
       return res.send(user.todolist);
     }
   }
@@ -168,6 +170,7 @@ app.post("/add-todo", body("name").notEmpty(), async function (req, res) {
   // is this redundant ??
   if (user.token == req.body.token) {
     let newItem = [req.body.name, req.body.date, req.body.priority];
+    console.log(newItem);
     await user.todolist.push(newItem);
     await user.save();
 

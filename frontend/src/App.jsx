@@ -1,14 +1,13 @@
-import './App.css'
-import Signup from './signup/Signup.jsx'
-import Popup from './todoList/Popup/Popup.jsx'
-import NavBar from './Components/NavBar'
+import "./App.css";
+import Signup from "./signup/signup.jsx";
+import Popup from "./todoList/Popup/Popup.jsx";
+import NavBar from "./Components/NavBar";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./todoList/dashboard/dashboard.jsx";
 import Cookies from "js-cookie";
-import LogIn from './logIn/LogIn.jsx'
+import LogIn from "./logIn/LogIn.jsx";
 
 function isAuthed() {
-  console.log(Cookies.get("token"));
   return Cookies.get("token") != undefined;
 }
 
@@ -28,9 +27,9 @@ function App() {
           }
         />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/todoList/Popup" element={<Popup />} />
+        <Route path="/todolist/Popup" element={<Popup />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/logIn" element={<LogIn />} />
+        <Route path="/login" element={<LogIn />} />
       </Routes>
     </>
   );
