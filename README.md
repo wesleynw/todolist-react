@@ -168,3 +168,9 @@ User commands:
 [Protected Routes and Authentication with React Router](https://ui.dev/react-router-protected-routes-authentication)
 
 [Wikipedia: ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
+
+[Passport.js](https://www.passportjs.org/)
+
+[GitHub: react auth slice example](https://github.com/iammanishshrma/react-protected-routes/blob/master/src/store/slices/auth/authSlice.js)
+
+[StackOverflow: react authentication](https://stackoverflow.com/questions/72371670/how-do-i-setup-a-backend-such-as-node-js-express-with-reactusing-vite-also-how)
