@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./signup";
+import "./styles.css"
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";

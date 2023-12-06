@@ -29,3 +29,13 @@ h1 {
   gap: 64px;
 }
 
+.b {
+  padding: 10px;
+  margin-bottom: 10px; /* spacing between elements */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  display: block; /* make elements block-level to stack vertically */
+  width: 100%; /* adjust width as necessary */
+  color: black;
+}
+
