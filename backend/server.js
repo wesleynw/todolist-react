@@ -27,7 +27,7 @@ var connectWithRetry = async function () {
 connectWithRetry();
 
 const TaskSchema = new mongoose.Schema({
-  key: mongoose.Schema.Types.UUID,
+  key: String,
   name: String,
   date: String,
   priority: String,
@@ -202,8 +202,6 @@ app.post(
     if (user == null) {
       return res.status(401).send({ errors: "session token invalid" });
     }
-
-    console.log(req.body.key);
 
     user.todolist.pull({ key: req.body.key });
     await user.save();

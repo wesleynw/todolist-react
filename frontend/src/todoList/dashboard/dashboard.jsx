@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import "./dashboard.css";
-// import Task from "../../Components/Task/Task.jsx";
 import Popup from "../Popup/Popup.jsx";
 import TaskManager from "../../Components/Task/TaskManager.jsx";
 import axios from "axios";
+import Task from "../../Components/Task/Task.jsx";
 import LineAcrossPage from "../../Components/LineAcrossPage.jsx";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -98,26 +98,12 @@ const Dashboard = () => {
           <h1 id="sort">Sort by</h1>
           <TaskManager />
         </div>
-        {console.log(tasks)}
         {tasks.length == 0 ? (
           <h2>Nothing to do today!</h2>
         ) : (
           <div className="task-list">
             {tasks.map((task) => (
-              <li key={task.key} className="task task-list">
-                {console.log(task.key)}
-                <input
-                  type="checkbox"
-                  onChange={() => {
-                    setTimeout(() => {
-                      removeTask(task.key);
-                    }, 500);
-                  }}
-                />
-                <span className="task-time">{task.time}</span>
-                <span className="task-name">{task.name}</span>
-                <span className={task.priority}></span>
-              </li>
+              <Task key={task.key} removeTask={removeTask} task={task} />
             ))}
           </div>
         )}
