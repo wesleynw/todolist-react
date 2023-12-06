@@ -26,13 +26,19 @@ var connectWithRetry = async function () {
 };
 connectWithRetry();
 
-// Define a schema
+const TaskSchema = new mongoose.Schema({
+  key: mongoose.Schema.Types.UUID,
+  name: String,
+  date: String,
+  priority: String,
+});
+
 const UserSchema = new mongoose.Schema({
   name: String,
   email: String,
   password: String,
   token: mongoose.Schema.Types.UUID,
-  todolist: [],
+  todolist: [TaskSchema],
 });
 
 // Compile model from schema
@@ -79,7 +85,7 @@ app.post(
           email: req.body.email,
           password: hash,
           token: uuidv4(),
-          todolist: {},
+          todolist: Array(0),
         });
 
         await newUser.validate();
@@ -169,18 +175,42 @@ app.post("/add-todo", body("name").notEmpty(), async function (req, res) {
   }
   // is this redundant ??
   if (user.token == req.body.token) {
-    let newItem = [req.body.name, req.body.date, req.body.priority];
-    console.log(newItem);
-    await user.todolist.push(newItem);
+    let newItem = {
+      key: req.body.key,
+      name: req.body.name,
+      date: req.body.date,
+      priority: req.body.priority,
+    };
+    user.todolist.push(newItem);
     await user.save();
 
     return res.sendStatus(201);
   }
 });
 
-app.get("/test-get", async function (req, res) {
-  res.send("it is working lol");
-});
+app.post(
+  "/delete-todo",
+  body("token").notEmpty().isUUID(),
+  body("key").notEmpty(),
+  async function (req, res) {
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+      return res.status(422).send({ errors: result.array() });
+    }
+
+    const user = await User.findOne({ token: req.body.token }).exec();
+    if (user == null) {
+      return res.status(401).send({ errors: "session token invalid" });
+    }
+
+    console.log(req.body.key);
+
+    user.todolist.pull({ key: req.body.key });
+    await user.save();
+
+    return res.sendStatus(200);
+  }
+);
 
 app.listen(port, function () {
   console.log(`Example app listening on port ${port}!`);

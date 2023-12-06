@@ -1,23 +1,26 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./dashboard.css";
-import Task from "../../Components/Task/Task.jsx";
+// import Task from "../../Components/Task/Task.jsx";
 import Popup from "../Popup/Popup.jsx";
 import TaskManager from "../../Components/Task/TaskManager.jsx";
 import axios from "axios";
 import LineAcrossPage from "../../Components/LineAcrossPage.jsx";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { v4 as uuidv4 } from "uuid";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
   const [isPopupVisible, setPopupVisibility] = useState(false);
   const [newTask, setNewTask] = useState(["new task", "1:00", "None"]);
+  const [todoState, setTodoState] = useState(uuidv4());
 
   const token = Cookies.get("token");
   if (token == undefined) {
     navigate("/signup");
   }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,13 +30,48 @@ const Dashboard = () => {
           },
         });
         setTasks(response.data);
+        // setTodoState(uuidv4());
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
-  }, []);
+  }, [token, todoState]);
+
+  const addTask = async () => {
+    const taskData = {
+      token: token,
+      key: String(uuidv4()),
+      name: newTask[0],
+      date: newTask[1],
+      priority: newTask[2],
+    };
+
+    try {
+      await axios.post("http://localhost:3000/add-todo", taskData);
+    } catch (error) {
+      console.error("Error adding task:", error);
+    }
+
+    setTasks([...tasks, taskData]);
+
+    // Reset newTask to its initial state
+    setNewTask(["new task", "1:00", "None"]);
+    // await fetchData();
+    // setTodoState(uuidv4());
+  };
+
+  const removeTask = async (key) => {
+    try {
+      await axios.post("http://localhost:3000/delete-todo", {
+        token: token,
+        key: key,
+      });
+      setTodoState(uuidv4());
+    } catch (error) {
+      console.error("Error removing task", error);
+    }
+  };
 
   // Function to toggle the Popup visibility
   const togglePopupVisibility = () => {
@@ -43,40 +81,6 @@ const Dashboard = () => {
   const setVisibilityFalse = () => {
     setPopupVisibility(false);
   };
-
-  const addTask = async () => {
-    // Add the task to the list or perform other actions
-    setTasks([...tasks, newTask]);
-    // Call the post function to add Task to backend
-
-    console.log(newTask);
-
-    const taskData = {
-      token: token,
-      name: newTask[0],
-      date: newTask[1],
-      priority: newTask[2],
-    };
-
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/add-todo",
-        taskData
-      );
-      // Handle the response (e.g., update state)
-      console.log(response.data);
-    } catch (error) {
-      // Handle errors
-      console.error("Error adding task:", error);
-    }
-
-    // Reset newTask to its initial state
-    setNewTask(["new task", "1:00", "None"]);
-  };
-
-  function isEmpty(t) {
-    return t[0] !== undefined;
-  }
 
   return (
     <>
@@ -88,19 +92,35 @@ const Dashboard = () => {
       ></link>
       <div className={isPopupVisible ? "shifted-content" : "main-body"}>
         <h1>Today&apos;s To-Do List</h1>
-
         <h1 id="date">Monday</h1>
         <LineAcrossPage />
         <div className="one-line">
           <h1 id="sort">Sort by</h1>
           <TaskManager />
         </div>
-
-        {/*using react to add to-do list elements*/}
-        {tasks.filter(isEmpty).map((task, index) => (
-          <Task key={index} name={task[0]} time={task[1]} priority={task[2]} />
-        ))}
-
+        {console.log(tasks)}
+        {tasks.length == 0 ? (
+          <h2>Nothing to do today!</h2>
+        ) : (
+          <div className="task-list">
+            {tasks.map((task) => (
+              <li key={task.key} className="task task-list">
+                {console.log(task.key)}
+                <input
+                  type="checkbox"
+                  onChange={() => {
+                    setTimeout(() => {
+                      removeTask(task.key);
+                    }, 500);
+                  }}
+                />
+                <span className="task-time">{task.time}</span>
+                <span className="task-name">{task.name}</span>
+                <span className={task.priority}></span>
+              </li>
+            ))}
+          </div>
+        )}
         <button
           className="main-body-create-task-button"
           onClick={togglePopupVisibility}
