@@ -89,6 +89,11 @@ body {
     text-decoration: none;
   }
 
+  .link {
+    color: #007bff;
+    text-decoration: none;
+  }
+
 
 input[type="text"],
 input[type="password"],

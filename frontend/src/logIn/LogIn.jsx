@@ -23,7 +23,7 @@ function LogIn() {
                 </p>
                 <div className ="separator"></div>
                 <button type="button" className ="social-button google">Continue with Google</button>
-                <Link to='../signup'>Create a new account</Link>  
+                <Link className = "link" to='../signup'>Create a new account</Link>  
             </form>
        
         </div>

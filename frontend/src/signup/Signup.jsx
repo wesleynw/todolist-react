@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./signup";
-import "./styles.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -44,7 +43,7 @@ function Signup() {
 
   return (
     <>
-      <div className="account-container">
+      <div className="login-container">
         <h2>Create a New Account</h2>
         <form id="createAccountForm" onSubmit={handleSubmit}>
           <input
@@ -87,7 +86,7 @@ function Signup() {
             Create Account
           </button>
         </form>
-        <Link to="../logIn">Already have an account? Log in</Link>
+        <Link className = "link" to="../logIn">Already have an account? Log in</Link>
       </div>
     </>
   );

@@ -10,9 +10,6 @@ const NavBar = () => {
           <Link to="/Signup">Sign Up</Link>
         </li>
         <li>
-          <Link to="/todoList/Popup">Pop Up</Link>
-        </li>
-        <li>
           <Link to="/dashboard">Main Page</Link>
         </li>
       </ul>
