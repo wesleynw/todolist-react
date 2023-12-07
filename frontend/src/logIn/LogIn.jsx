@@ -1,34 +1,33 @@
-import { useState } from 'react'
-import '../signup/signup.js'
-import '../signup/styles.css'
-import { Link } from 'react-router-dom';
+import "../signup/signup.css";
+import { Link } from "react-router-dom";
 
-
-
-function LogIn() {
-  const [count, setCount] = useState(0)
-  const [isLoggedIn, changeStatus] = useState(false);
-
+function Login() {
   return (
     <>
-        <div className = "login-container">
-            <h2>Log in to your account</h2>
-            <form id="loginForm">
-            <input type="text" id="email" placeholder="Email Address" required/>
-                <input type="text" id="password" placeholder="Password" required/>
-                <button type="submit" id="continueButton">Continue</button>
-                <p className ="terms">
-                By continuing with any of the options below, you agree to our 
-                Terms of Service and have read our Privacy Policy.
-                </p>
-                <div className ="separator"></div>
-                <button type="button" className ="social-button google">Continue with Google</button>
-                <Link className = "link" to='../signup'>Create a new account</Link>  
-            </form>
-       
-        </div>
+      <div className="login-container">
+        <h2>Log in to your account</h2>
+        <form id="loginForm">
+          <input type="text" id="email" placeholder="Email Address" required />
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            required
+          />
+          <button type="submit" id="continueButton">
+            Continue
+          </button>
+          <p className="terms">
+            By continuing with any of the options below, you agree to our Terms
+            of Service and have read our Privacy Policy.
+          </p>
+          <Link className="link" to="../signup">
+            Create a new account
+          </Link>
+        </form>
+      </div>
     </>
-  )
+  );
 }
 
-export default LogIn
+export default Login;

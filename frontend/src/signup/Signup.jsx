@@ -1,11 +1,12 @@
 import { useState } from "react";
-import "./signup";
-import "./styles.css"
+import "./signup.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 
 function Signup() {
+  document.title = "Create Account";
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -13,6 +14,7 @@ function Signup() {
     password: "",
     password_confirmation: "",
   });
+  const [errors, setErrors] = useState([]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -30,66 +32,72 @@ function Signup() {
         "http://localhost:3000/create-account",
         formData
       );
-
-      if (response.status == 201) {
-        Cookies.set("token", response.data.token);
-        // <Navigate to="/dashboard" />;
-        // history.push("/dashboard");
-        navigate("/dashboard");
-      }
+      Cookies.set("token", response.data.token);
+      navigate("/dashboard");
     } catch (error) {
-      console.error("Error:", error);
+      setErrors(error.response.data.errors);
     }
   };
 
+  const getErrorForField = (fieldName) => {
+    const error = errors.find((err) => err.path == fieldName);
+    return error ? error.msg : "";
+  };
+
   return (
-    <>
-      <div className="login-container">
-        <h2>Create a New Account</h2>
-        <form id="createAccountForm" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            id="firstName"
-            name="name"
-            placeholder="Name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Email Address"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="password"
-            id="confirmPassword"
-            name="password_confirmation"
-            placeholder="Confirm Password"
-            value={formData.password_confirmation}
-            onChange={handleChange}
-            required
-          />
-          <button type="submit" id="createAccountButton">
-            Create Account
-          </button>
-        </form>
-        <Link className = "link" to="../logIn">Already have an account? Log in</Link>
-      </div>
-    </>
+    <div id="login-container">
+      <h2>Create a New Account</h2>
+      <form id="createAccountForm" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          id="firstName"
+          name="name"
+          placeholder="Name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
+        <p className="error-msg">{getErrorForField("name")}</p>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Email Address"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
+        <p className="error-msg">{getErrorForField("email")}</p>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Password"
+          autoComplete="new-password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
+        <p className="error-msg">{getErrorForField("password")}</p>
+        <input
+          type="password"
+          id="confirmPassword"
+          name="password_confirmation"
+          placeholder="Confirm Password"
+          autoComplete="new-password"
+          value={formData.password_confirmation}
+          onChange={handleChange}
+          required
+        />
+        <p className="error-msg">{getErrorForField("password_confirmation")}</p>
+        <button type="submit" id="createAccountButton">
+          Create Account
+        </button>
+      </form>
+      <Link className="link" to="../logIn">
+        Already have an account? Log in
+      </Link>
+    </div>
   );
 }
 

@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
+import "./task.css";
 
 function Task({ removeTask, task }) {
   return (
     <li className="task">
-      <div>
+      <div className="flexbox-horiz">
         <input
           type="checkbox"
           onChange={() => {
@@ -14,7 +15,7 @@ function Task({ removeTask, task }) {
         />
         <span className="task-name">{task.name}</span>
       </div>
-      <div>
+      <div className="flexbox-horiz">
         <span className="task-time">{task.date}</span>
         <span className={task.priority}></span>
       </div>
