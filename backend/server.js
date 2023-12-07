@@ -108,9 +108,17 @@ app.post(
   }
 );
 
-app.get(
+app.post(
   "/login",
-  body("email").notEmpty().isEmail(),
+  body("email")
+    .notEmpty()
+    .isEmail()
+    .custom(async (value) => {
+      const count = await User.find({ email: value }).countDocuments();
+      if (count == 0) {
+        throw new Error("No account exists with this email!");
+      }
+    }),
   body("password").notEmpty(),
   async function (req, res) {
     if (mongoose.connection.readyState != 1) {
@@ -134,15 +142,12 @@ app.get(
     }
 
     bcrypt.compare(req.body.password, user.password, function (err, result) {
-      // result == true
       if (result == true) {
-        return res
-          .status(200)
-          .send({ status: "authenticated", token: user.token });
+        return res.status(200).send({ token: user.token, errors: [] });
       }
       return res
         .status(422)
-        .send({ status: "not authenticated", error: "invalid password" });
+        .send({ errors: [{ path: "password", msg: "Incorrect password" }] });
     });
   }
 );

@@ -1,18 +1,17 @@
+import axios from "axios";
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 import "./dashboard.css";
 import TaskManager from "../../Components/Task/TaskManager.jsx";
-import axios from "axios";
 import Task from "../../Components/Task/Task.jsx";
 import LineAcrossPage from "../../Components/LineAcrossPage.jsx";
-import Cookies from "js-cookie";
-import { v4 as uuidv4 } from "uuid";
 import TaskSkeleton from "../../Components/Task/TaskSkeleton.jsx";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
-
   const token = Cookies.get("token");
 
   useEffect(() => {
@@ -70,10 +69,6 @@ const Dashboard = () => {
     Cookies.remove("token");
     navigate("/signup");
   };
-
-  // const setVisibilityFalse = () => {
-  //   setPopupVisibility(false);
-  // };
 
   return (
     <>

@@ -6,12 +6,10 @@ body {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  /* max-width: 50%; */
 }
 
 #login-container {
   background-color: #fff;
-  /* max-width: 500px; */
   padding: 30px;
   margin-top: 50px;
   margin: auto;
@@ -31,7 +29,6 @@ body {
 input {
   width: 90%;
 }
-
 
 h2 {
   text-align: center;
@@ -121,7 +118,7 @@ button {
   margin-bottom: 3px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  display: block; /* make elements block-level to stack vertically */
+  display: block;
   /* width: 90%;  */
   /* margin-left: auto;
   margin-right: auto; */

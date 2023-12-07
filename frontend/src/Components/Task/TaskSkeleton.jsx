@@ -1,6 +1,6 @@
-import "./task.css";
 import PropTypes from "prop-types";
 import { useState } from "react";
+import "./task.css";
 
 function TaskSkeleton({ addTask }) {
   const skeleton = {
@@ -29,13 +29,13 @@ function TaskSkeleton({ addTask }) {
   return (
     <form className="task" onSubmit={handleSubmit}>
       <div className="flexbox-vert-left-align">
-        {/* <input type="checkbox" disabled /> */}
         <input
           name="name"
           placeholder="Task name"
           className="new-task-input"
           onChange={handleChange}
           value={formData.name}
+          autoComplete="off"
           required
         />
         <input
@@ -59,9 +59,9 @@ function TaskSkeleton({ addTask }) {
           <option value="High">High</option>
         </select>
       </div>
-      <div className="flexbox-horiz">
-        <button type="submit">+ Add Task</button>
-      </div>
+      {/* <div className="flexbox-horiz"> */}
+      <button type="submit">+ Add Task</button>
+      {/* </div> */}
     </form>
   );
 }

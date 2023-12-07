@@ -143,11 +143,22 @@ h2 {
   background-color: #fb896f;
 }
 
-.create-task-button {
-  background-color: #e7e7e7;
-  border: none;
+input[type="text"],
+input[type="password"],
+input[type="email"],
+button {
   padding: 10px;
-  border-radius: 20px;
+  margin-bottom: 3px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  display: block;
+  white-space: nowrap;
+}
+
+button {
+  font-family: serif;
+  background-color: #007bff;
+  color: white;
   cursor: pointer;
-  /* width: 50%; */
+  width: 20px;
 }

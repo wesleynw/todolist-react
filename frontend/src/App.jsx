@@ -1,9 +1,9 @@
-import "./App.css";
-import Signup from "./signup/signup.jsx";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Dashboard from "./todoList/dashboard/Dashboard.jsx";
 import Cookies from "js-cookie";
-import Login from "./logIn/LogIn.jsx";
+import Dashboard from "./todoList/dashboard/Dashboard.jsx";
+import Signup from "./Signup.jsx";
+import Login from "./Login.jsx";
+import "./App.css";
 
 function isAuthed() {
   return Cookies.get("token") != undefined;

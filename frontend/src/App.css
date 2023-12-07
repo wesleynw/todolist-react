@@ -1,7 +1,5 @@
 #root {
   position: relative;
-  /* max-width: 1280px; */
-  /* margin: 0 auto; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,6 +8,12 @@
   width: 100%;
 }
 
-/* body {
-  padding: 0;
-} */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}

@@ -1,12 +1,11 @@
 import { useState } from "react";
-import "./signup.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
+import "./Login-Signup.css";
 
 function Signup() {
   document.title = "Create Account";
-
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -45,9 +44,9 @@ function Signup() {
   };
 
   return (
-    <div id="login-container">
-      <h2>Create a New Account</h2>
-      <form id="createAccountForm" onSubmit={handleSubmit}>
+    <div className="form-container">
+      <h2 className="form-title">Create a New Account</h2>
+      <form className="form" onSubmit={handleSubmit}>
         <input
           type="text"
           id="firstName"
@@ -90,9 +89,7 @@ function Signup() {
           required
         />
         <p className="error-msg">{getErrorForField("password_confirmation")}</p>
-        <button type="submit" id="createAccountButton">
-          Create Account
-        </button>
+        <button type="submit">Create Account</button>
       </form>
       <Link className="link" to="../logIn">
         Already have an account? Log in
