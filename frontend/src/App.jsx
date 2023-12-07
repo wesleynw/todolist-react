@@ -1,7 +1,7 @@
 import "./App.css";
 import Signup from "./signup/signup.jsx";
 import Popup from "./todoList/Popup/Popup.jsx";
-import NavBar from "./Components/NavBar";
+// import NavBar from "./Components/NavBar";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./todoList/dashboard/dashboard.jsx";
 import Cookies from "js-cookie";
@@ -14,7 +14,6 @@ function isAuthed() {
 function App() {
   return (
     <>
-      <NavBar />
       <Routes>
         <Route
           path="/"
@@ -27,7 +26,7 @@ function App() {
           }
         />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/todolist/Popup" element={<Popup />} />
+        {/* <Route path="/todolist/Popup" element={<Popup />} /> */}
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<LogIn />} />
       </Routes>

@@ -53,16 +53,19 @@ app.post(
     .custom(async (value) => {
       const count = await User.find({ email: value }).countDocuments();
       if (count != 0) {
-        throw new Error("username already in use");
+        throw new Error("This email already belongs to an account");
       }
     }),
-  body("password").notEmpty(),
+  body("password")
+    .notEmpty()
+    .isStrongPassword()
+    .withMessage("This password is too weak"),
   body("password_confirmation")
     .notEmpty()
     .custom((value, { req }) => {
       return value == req.body.password;
     })
-    .withMessage("passwords do not match"),
+    .withMessage("Passwords do not match"),
   async function (req, res) {
     if (mongoose.connection.readyState != 1) {
       return res.status(500).send({
