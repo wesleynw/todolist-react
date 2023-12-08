@@ -50,16 +50,14 @@ app.post(
   body("email")
     .notEmpty()
     .isEmail()
+    .withMessage("This is not a valid email")
     .custom(async (value) => {
       const count = await User.find({ email: value }).countDocuments();
       if (count != 0) {
         throw new Error("This email already belongs to an account");
       }
     }),
-  body("password")
-    .notEmpty()
-    .isStrongPassword()
-    .withMessage("This password is too weak"),
+  body("password").notEmpty().withMessage("This password is too weak"),
   body("password_confirmation")
     .notEmpty()
     .custom((value, { req }) => {
