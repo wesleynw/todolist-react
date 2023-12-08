@@ -9,6 +9,10 @@ import Task from "../../Components/Task/Task.jsx";
 import LineAcrossPage from "../../Components/LineAcrossPage.jsx";
 import TaskSkeleton from "../../Components/Task/TaskSkeleton.jsx";
 
+function changeTitle() {
+  document.title = "Todo List";
+}
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
@@ -69,6 +73,8 @@ const Dashboard = () => {
     Cookies.remove("token");
     navigate("/signup");
   };
+
+  changeTitle();
 
   return (
     <>
