@@ -2,18 +2,21 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
-import "./Login-Signup.css";
+import styles from "./signup-login.module.css";
+import FormInputField from "./FormInputField";
 
 function Signup() {
   document.title = "Create Account";
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: "",
+  const initialState = {
+    firstName: "",
     email: "",
     password: "",
     password_confirmation: "",
-  });
-  const [errors, setErrors] = useState([]);
+  };
+
+  const [formData, setFormData] = useState(initialState);
+  const [errors, setErrors] = useState(initialState);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -34,67 +37,88 @@ function Signup() {
       Cookies.set("token", response.data.token);
       navigate("/dashboard");
     } catch (error) {
-      setErrors(error.response.data.errors);
+      setErrors(initialState);
+
+      const mappedErrors = error.response.data.errors.reduce((acc, error) => {
+        switch (error.path) {
+          case "name":
+            return { ...acc, name: error.msg };
+          case "email":
+            return { ...acc, email: error.msg };
+          case "password":
+            return { ...acc, password: error.msg };
+          case "password_confirmation":
+            return { ...acc, password_confirmation: error.msg };
+          default:
+            return acc;
+        }
+      });
+      setErrors(mappedErrors);
+      console.log(mappedErrors);
     }
   };
 
-  const getErrorForField = (fieldName) => {
-    const error = errors.find((err) => err.path == fieldName);
-    return error ? error.msg : "";
-  };
-
   return (
-    <div className="form-container">
-      <h2 className="form-title">Create a New Account</h2>
-      <form className="form" onSubmit={handleSubmit}>
-        <input
+    <>
+      <h1 className={styles.formTitle}>Create an account</h1>
+      <p className={styles.formSubtitle}>
+        Or{" "}
+        <Link className="link" to="../logIn">
+          <span>sign in to an existing account</span>
+        </Link>
+      </p>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <FormInputField
+          label="First name"
+    <>
+      <h1 className={styles.formTitle}>Create an account</h1>
+      <p className={styles.formSubtitle}>
+        Or{" "}
+        <Link className="link" to="../logIn">
+          <span>sign in to an existing account</span>
+        </Link>
+      </p>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <FormInputField
+          label="First name"
           type="text"
-          id="firstName"
-          name="name"
-          placeholder="Name"
+          name="first-name"
           value={formData.name}
-          onChange={handleChange}
-          required
+          handleChange={handleChange}
+          errorMsg={errors.firstName}
         />
-        <p className="error-msg">{getErrorForField("name")}</p>
-        <input
+
+        <FormInputField
+          label="Email"
           type="email"
-          id="email"
           name="email"
-          placeholder="Email Address"
           value={formData.email}
-          onChange={handleChange}
-          required
+          handleChange={handleChange}
+          errorMsg={errors.email}
         />
-        <p className="error-msg">{getErrorForField("email")}</p>
-        <input
+
+        <FormInputField
+          label="Password"
           type="password"
-          id="password"
           name="password"
-          placeholder="Password"
-          autoComplete="new-password"
           value={formData.password}
-          onChange={handleChange}
-          required
+          handleChange={handleChange}
+          errorMsg={errors.password}
         />
-        <p className="error-msg">{getErrorForField("password")}</p>
-        <input
+
+        <FormInputField
+          label="Password confirmation"
           type="password"
-          id="confirmPassword"
           name="password_confirmation"
-          placeholder="Confirm Password"
-          autoComplete="new-password"
           value={formData.password_confirmation}
-          onChange={handleChange}
-          required
+          handleChange={handleChange}
+          errorMsg={errors.password_confirmation}
         />
-        <p className="error-msg">{getErrorForField("password_confirmation")}</p>
-        <button type="submit">Create Account</button>
+        <button type="submit">
+          <h3 className={styles.submitButtonText}>Create Account</h3>
+        </button>
       </form>
-      <Link className="link" to="../logIn">
-        Already have an account? Log in
-      </Link>
-    </div>
+    </>
   );
 }
 

@@ -5,7 +5,7 @@ body {
   /* padding: 20px; */
 }
 
-.flexbox-horiz {
+.flexboxHoriz {
   display: flex;
   flex-direction: row;
   align-items: center;
