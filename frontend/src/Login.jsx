@@ -34,30 +34,30 @@ function Login() {
       Cookies.set("token", response.data.token);
       navigate("/dashboard");
     } catch (error) {
+      console.log("fjdskla");
       setErrors(initialState);
 
-      const mappedErrors = error.response.data.errors.reduce((acc, error) => {
-        switch (error.path) {
-          case "name":
-            return { ...acc, name: error.msg };
-          case "email":
+      console.log("errors: ", error.response.data.errors);
+
+      const mappedErrors = error.response.data.errors.reduce(
+        (acc, error) => {
+          if (error.path === "email") {
             return { ...acc, email: error.msg };
-          case "password":
+          } else if (error.path === "password") {
             return { ...acc, password: error.msg };
-          case "password_confirmation":
-            return { ...acc, password_confirmation: error.msg };
-          default:
-            return acc;
-        }
-      });
+          }
+          return acc;
+        },
+        { ...initialState }
+      );
+      console.log("mapped errors: ", mappedErrors);
       setErrors(mappedErrors);
-      console.log(mappedErrors);
     }
   };
 
   return (
     <>
-      <h1 className={styles.formTitle}>Log in to your account</h1>
+      <h2 className={styles.formTitle}>Log in to your account</h2>
       <p className={styles.formSubtitle}>
         Or{" "}
         <Link className="link" to="../signup">

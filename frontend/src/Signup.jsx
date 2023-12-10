@@ -39,7 +39,10 @@ function Signup() {
     } catch (error) {
       setErrors(initialState);
 
+      console.log("errors: ", error.response.data.errors);
+
       const mappedErrors = error.response.data.errors.reduce((acc, error) => {
+        console.log("fjdksla");
         switch (error.path) {
           case "name":
             return { ...acc, name: error.msg };
@@ -53,17 +56,17 @@ function Signup() {
             return acc;
         }
       });
+
       setErrors(mappedErrors);
-      console.log(mappedErrors);
     }
   };
 
   return (
     <>
-      <h1 className={styles.formTitle}>Create an account</h1>
+      <h2 className={styles.formTitle}>Create an account</h2>
       <p className={styles.formSubtitle}>
         Or{" "}
-        <Link className="link" to="../logIn">
+        <Link className="link" to="../login">
           <span>sign in to an existing account</span>
         </Link>
       </p>
