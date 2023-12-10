@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import "./task.css";
+// import "./task.css";
 
 function TaskSkeleton({ addTask }) {
   const skeleton = {

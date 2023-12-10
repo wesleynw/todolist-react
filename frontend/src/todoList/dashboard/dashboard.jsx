@@ -3,7 +3,6 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import "./dashboard.css";
 import TaskManager from "../../Components/Task/TaskManager.jsx";
 import Task from "../../Components/Task/Task.jsx";
 import LineAcrossPage from "../../Components/LineAcrossPage.jsx";

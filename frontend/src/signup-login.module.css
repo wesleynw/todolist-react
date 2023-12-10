@@ -1,0 +1,67 @@
+@font-face {
+  font-family: "Lexend";
+  src: url(./fonts/LexendDeca-Bold.ttf) format("truetype");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Lexend";
+  src: url(./fonts/LexendDeca-Regular.ttf) format("truetype");
+  font-weight: normal;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: Lexend;
+}
+
+a {
+  color: black;
+}
+
+.formTitle {
+  padding-top: 50px;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.formSubtitle {
+  margin-top: 2px;
+  margin-bottom: 50px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 350px;
+}
+
+button {
+  color: white;
+  background-color: black;
+  margin-top: 40px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  width: 100%;
+  font-family: "Lexend";
+}
+
+button:hover {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.submitButtonText {
+  padding: 0;
+  margin: 0;
+}

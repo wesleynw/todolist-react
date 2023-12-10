@@ -2,17 +2,18 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
-import "./Login-Signup.css";
+import styles from "./signup-login.module.css";
+import FormInputField from "./FormInputField";
 
 function Login() {
   document.title = "Login";
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
+  const initialState = {
     email: "",
     password: "",
-  });
-
-  const [errors, setErrors] = useState([]);
+  };
+  const [formData, setFormData] = useState(initialState);
+  const [errors, setErrors] = useState(initialState);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -33,52 +34,60 @@ function Login() {
       Cookies.set("token", response.data.token);
       navigate("/dashboard");
     } catch (error) {
-      setErrors(error.response.data.errors);
+      setErrors(initialState);
+
+      const mappedErrors = error.response.data.errors.reduce((acc, error) => {
+        switch (error.path) {
+          case "name":
+            return { ...acc, name: error.msg };
+          case "email":
+            return { ...acc, email: error.msg };
+          case "password":
+            return { ...acc, password: error.msg };
+          case "password_confirmation":
+            return { ...acc, password_confirmation: error.msg };
+          default:
+            return acc;
+        }
+      });
+      setErrors(mappedErrors);
+      console.log(mappedErrors);
     }
   };
 
-  const getErrorForField = (fieldName) => {
-    const error = errors.find((err) => err.path == fieldName);
-    return error ? error.msg : "";
-  };
-
   return (
-    <div className="form-container">
-      <h2 className="form-title">Log in to your account</h2>
-      <form className="form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          id="email"
-          name="email"
-          placeholder="Email Address"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-        <p className="error-msg">{getErrorForField("email")}</p>
-
-        <input
-          type="password"
-          id="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-        <p className="error-msg">{getErrorForField("password")}</p>
-        <button type="submit" id="continueButton">
-          Continue
-        </button>
-        <p className="terms">
-          By continuing with any of the options below, you agree to our Terms of
-          Service and have read our Privacy Policy.
-        </p>
+    <>
+      <h1 className={styles.formTitle}>Log in to your account</h1>
+      <p className={styles.formSubtitle}>
+        Or{" "}
         <Link className="link" to="../signup">
-          Create a new account
+          <span>create a new account</span>
         </Link>
+      </p>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <FormInputField
+          label="Email"
+          type="email"
+          name="email"
+          value={formData.email}
+          handleChange={handleChange}
+          errorMsg={errors.email}
+        />
+
+        <FormInputField
+          label="Password"
+          type="password"
+          name="password"
+          value={formData.password}
+          handleChange={handleChange}
+          errorMsg={errors.password}
+        />
+
+        <button type="submit">
+          <h3 className={styles.submitButtonText}>Log in</h3>
+        </button>
       </form>
-    </div>
+    </>
   );
 }
 
