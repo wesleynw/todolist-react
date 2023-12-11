@@ -21,8 +21,8 @@ function TaskSkeleton({ addTask }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(formData);
-    await addTask(formData.name, formData.date, formData.priority);
+    // console.log(formData);
+    await addTask(formData.name, formData.date, formData.priority); // TODO: error check this, don't add if there was a server error
     setFormData(skeleton);
   };
 

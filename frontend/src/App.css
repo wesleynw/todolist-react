@@ -6,3 +6,152 @@
   flex-shrink: 0;
   width: 100%;
 }
+
+@font-face {
+  font-family: "Lexend";
+  src: url(./fonts/LexendDeca-Bold.ttf) format("truetype");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Lexend";
+  src: url(./fonts/LexendDeca-Regular.ttf) format("truetype");
+  font-weight: normal;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: Lexend;
+  width: 100%;
+  margin: 0;
+}
+
+a {
+  color: black;
+  cursor: pointer;
+}
+
+.title {
+  padding-top: 50px;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  max-width: 95%;
+  text-align: center;
+}
+
+.formSubtitle {
+  margin-top: 2px;
+  margin-bottom: 35px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  border-radius: 10px;
+  width: calc(95% - 60px);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 640px) {
+  .form {
+    max-width: 28rem;
+  }
+}
+
+button {
+  color: white;
+  background-color: black;
+  margin-top: 40px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  width: 100%;
+  font-family: "Lexend";
+}
+
+button:hover {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.submitButtonText {
+  padding: 0;
+  margin: 0;
+}
+
+.task {
+  border: 2px solid #ddd;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 10px;
+  transition: background-color 0.1s;
+}
+
+.task:hover {
+  background-color: #e6e6e3;
+  cursor: pointer;
+}
+
+.task-name {
+  padding-left: 5px;
+}
+
+.task-button {
+  /* background-color: white; */
+  padding: 0;
+  margin: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  fill: gray;
+  /* background-color: black; */
+  background: transparent;
+}
+
+.task-time {
+  padding-right: 15px;
+}
+
+.flexbox-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.field-label {
+  padding-bottom: 0;
+  margin-bottom: 8px;
+}
+
+.field {
+  width: 100%;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: calc(100% - 20px);
+}
+
+.error-msg {
+  color: red;
+  font-size: smaller;
+  margin: 0 auto;
+  padding-top: 6px;
+  padding-left: 5px;
+  margin-bottom: 10px;
+}

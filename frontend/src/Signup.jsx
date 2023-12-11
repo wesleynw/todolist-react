@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
-import styles from "./signup-login.module.css";
 import FormInputField from "./FormInputField";
 
 function Signup() {
@@ -12,7 +11,7 @@ function Signup() {
     firstName: "",
     email: "",
     password: "",
-    password_confirmation: "",
+    passwordConfirmation: "",
   };
 
   const [formData, setFormData] = useState(initialState);
@@ -39,19 +38,16 @@ function Signup() {
     } catch (error) {
       setErrors(initialState);
 
-      console.log("errors: ", error.response.data.errors);
-
       const mappedErrors = error.response.data.errors.reduce((acc, error) => {
-        console.log("fjdksla");
         switch (error.path) {
-          case "name":
+          case "firstName":
             return { ...acc, name: error.msg };
           case "email":
             return { ...acc, email: error.msg };
           case "password":
             return { ...acc, password: error.msg };
-          case "password_confirmation":
-            return { ...acc, password_confirmation: error.msg };
+          case "passwordConfirmation":
+            return { ...acc, passwordConfirmation: error.msg };
           default:
             return acc;
         }
@@ -63,19 +59,19 @@ function Signup() {
 
   return (
     <>
-      <h2 className={styles.formTitle}>Create an account</h2>
-      <p className={styles.formSubtitle}>
+      <h2 className="title">Create an account</h2>
+      <p className="formSubtitle">
         Or{" "}
         <Link className="link" to="../login">
           <span>sign in to an existing account</span>
         </Link>
       </p>
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form className="form" onSubmit={handleSubmit}>
         <FormInputField
           label="First name"
           type="text"
-          name="first-name"
-          value={formData.name}
+          name="firstName"
+          value={formData.firstName}
           handleChange={handleChange}
           errorMsg={errors.firstName}
         />
@@ -101,13 +97,13 @@ function Signup() {
         <FormInputField
           label="Password confirmation"
           type="password"
-          name="password_confirmation"
-          value={formData.password_confirmation}
+          name="passwordConfirmation"
+          value={formData.passwordConfirmation}
           handleChange={handleChange}
-          errorMsg={errors.password_confirmation}
+          errorMsg={errors.passwordConfirmation}
         />
         <button type="submit">
-          <h3 className={styles.submitButtonText}>Create Account</h3>
+          <h3 className="submitButtonText">Create Account</h3>
         </button>
       </form>
     </>

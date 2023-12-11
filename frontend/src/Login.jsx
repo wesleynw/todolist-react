@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
-import styles from "./signup-login.module.css";
 import FormInputField from "./FormInputField";
 
 function Login() {
@@ -57,14 +56,14 @@ function Login() {
 
   return (
     <>
-      <h2 className={styles.formTitle}>Log in to your account</h2>
-      <p className={styles.formSubtitle}>
+      <h2 className="title">Login to your account</h2>
+      <p className="formSubtitle">
         Or{" "}
         <Link className="link" to="../signup">
           <span>create a new account</span>
         </Link>
       </p>
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form className="form" onSubmit={handleSubmit}>
         <FormInputField
           label="Email"
           type="email"
@@ -84,7 +83,7 @@ function Login() {
         />
 
         <button type="submit">
-          <h3 className={styles.submitButtonText}>Log in</h3>
+          <h3 className="submitButtonText">Log in</h3>
         </button>
       </form>
     </>

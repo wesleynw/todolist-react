@@ -3,16 +3,13 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import TaskManager from "../../Components/Task/TaskManager.jsx";
+// import TaskManager from "../../Components/Task/TaskManager.jsx";
 import Task from "../../Components/Task/Task.jsx";
 import LineAcrossPage from "../../Components/LineAcrossPage.jsx";
 import TaskSkeleton from "../../Components/Task/TaskSkeleton.jsx";
 
-function changeTitle() {
-  document.title = "Todo List";
-}
-
 const Dashboard = () => {
+  document.title = "Todo List";
   const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
   const token = Cookies.get("token");
@@ -73,21 +70,15 @@ const Dashboard = () => {
     navigate("/signup");
   };
 
-  changeTitle();
-
   return (
     <>
-      <link
-        href="https://fonts.googleapis.com/css?family=Alice"
-        rel="stylesheet"
-      ></link>
       <div className={"main-body"}>
-        <h1 id="title">Today&apos;s To-Do List</h1>
+        <h1 className="title">Today&apos;s To-Do List</h1>
         <LineAcrossPage />
-        <div className="one-line">
-          <h1 id="sort">Sort by</h1>
-          <TaskManager />
-        </div>
+        {/* <div className="one-line"> */}
+        {/* <h1 id="sort">Sort by</h1> */}
+        {/* <TaskManager /> */}
+        {/* </div> */}
         {tasks.length == 0 ? (
           <h2>Nothing to do today!</h2>
         ) : (

@@ -1,10 +1,9 @@
 import PropTypes from "prop-types";
-import styles from "./FormInputField.module.css";
 
 function FormInputField({ label, type, name, value, handleChange, errorMsg }) {
   return (
-    <div className={styles.field}>
-      <p className={styles.fieldLabel}>{label}</p>
+    <div className="field">
+      <p className="field-label">{label}</p>
       <input
         type={type}
         name={name}
@@ -12,7 +11,7 @@ function FormInputField({ label, type, name, value, handleChange, errorMsg }) {
         onChange={handleChange}
         required
       />
-      <p className={styles.errorMsg}>{errorMsg}</p>
+      <p className="error-msg">{errorMsg}</p>
     </div>
   );
 }
