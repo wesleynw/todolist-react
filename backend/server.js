@@ -3,7 +3,12 @@ var cors = require("cors");
 const app = express();
 const port = 3000;
 
-const { header, body, validationResult } = require("express-validator");
+const {
+  header,
+  body,
+  validationResult,
+  matchedData,
+} = require("express-validator");
 
 app.use(express.json());
 app.use(cors());
@@ -179,30 +184,36 @@ app.get(
   }
 );
 
-app.post("/add-todo", body("name").notEmpty(), async function (req, res) {
-  const result = validationResult(req);
-  if (!result.isEmpty()) {
-    return res.status(422).send({ errors: result.array() });
-  }
+app.post(
+  "/add-todo",
+  body("key").notEmpty().isUUID(),
+  body("token").notEmpty().isUUID(),
+  body("name").notEmpty().escape().isString(),
+  body("date").notEmpty().isISO8601(),
+  body("priority").notEmpty().escape().isString(),
+  async function (req, res) {
+    const result = validationResult(req);
+    const data = matchedData(req);
+    if (!result.isEmpty()) {
+      return res.status(422).send({ errors: result.array() });
+    }
 
-  const user = await User.findOne({ token: req.body.token }).exec();
-  if (user == null) {
-    return res.status(401).send({ errors: "session token invalid" });
-  }
-  // is this redundant ??
-  if (user.token == req.body.token) {
+    const user = await User.findOne({ token: { $eq: data.token } }).exec();
+    if (user == null) {
+      return res.status(401).send({ errors: "session token invalid" });
+    }
     let newItem = {
-      key: req.body.key,
-      name: req.body.name,
-      date: req.body.date,
-      priority: req.body.priority,
+      key: data.key,
+      name: data.name,
+      date: data.date,
+      priority: data.priority,
     };
     user.todolist.push(newItem);
     await user.save();
 
     return res.sendStatus(201);
   }
-});
+);
 
 app.post(
   "/delete-todo",
