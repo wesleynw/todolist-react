@@ -1,8 +1,26 @@
 import PropTypes from "prop-types";
 
 function parseTaskDate(dateStr) {
+  const weekday = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  let result = "";
+
   const date = new Date(dateStr);
-  return String(date.getUTCMonth() + 1) + "/" + String(date.getUTCDate());
+  const now = new Date();
+  if (date - now < 7 * 24 * 3600 * 1000) {
+    result += weekday[date.getDay()] + "  ";
+  }
+  return (
+    result + String(date.getUTCMonth() + 1) + "/" + String(date.getUTCDate())
+  );
 }
 
 function Task({ removeTask, task }) {
@@ -13,7 +31,6 @@ function Task({ removeTask, task }) {
       </div>
       <div className="flexbox-row">
         <span className="task-time">{parseTaskDate(task.date)}</span>
-        {/* <span className={task.priority}></span> */}
         <button
           className="task-button"
           onClick={() => {

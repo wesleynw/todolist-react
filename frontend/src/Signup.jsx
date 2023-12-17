@@ -8,10 +8,10 @@ function Signup() {
   document.title = "Create Account";
   const navigate = useNavigate();
   const initialState = {
-    firstName: "",
+    name: "",
     email: "",
     password: "",
-    passwordConfirmation: "",
+    password_confirmation: "",
   };
 
   const [formData, setFormData] = useState(initialState);
@@ -40,14 +40,14 @@ function Signup() {
 
       const mappedErrors = error.response.data.errors.reduce((acc, error) => {
         switch (error.path) {
-          case "firstName":
+          case "name":
             return { ...acc, name: error.msg };
           case "email":
             return { ...acc, email: error.msg };
           case "password":
             return { ...acc, password: error.msg };
-          case "passwordConfirmation":
-            return { ...acc, passwordConfirmation: error.msg };
+          case "password_confirmation":
+            return { ...acc, password_confirmation: error.msg };
           default:
             return acc;
         }
@@ -70,10 +70,10 @@ function Signup() {
         <FormInputField
           label="First name"
           type="text"
-          name="firstName"
-          value={formData.firstName}
+          name="name"
+          value={formData.name}
           handleChange={handleChange}
-          errorMsg={errors.firstName}
+          errorMsg={errors.name}
         />
 
         <FormInputField
@@ -97,10 +97,10 @@ function Signup() {
         <FormInputField
           label="Password confirmation"
           type="password"
-          name="passwordConfirmation"
-          value={formData.passwordConfirmation}
+          name="password_confirmation"
+          value={formData.password_confirmation}
           handleChange={handleChange}
-          errorMsg={errors.passwordConfirmation}
+          errorMsg={errors.password_confirmation}
         />
         <button type="submit">
           <h3 className="submitButtonText">Create Account</h3>

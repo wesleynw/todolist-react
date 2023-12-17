@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import Dashboard from "./todoList/dashboard/Dashboard.jsx";
+import Dashboard from "./Dashboard.jsx";
 import Signup from "./Signup.jsx";
 import Login from "./Login.jsx";
 import "./App.css";
