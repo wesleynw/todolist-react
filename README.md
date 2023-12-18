@@ -165,6 +165,8 @@ User commands:
 
 [DigitalOcean: How To Add Login Authentication to React Applications](https://www.digitalocean.com/community/tutorials/how-to-add-login-authentication-to-react-applications#step-2-creating-a-token-api)
 
+[DigitalOcean: How To Use JSON Web Tokens (JWTs) in Express.js](https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs)
+
 [Protected Routes and Authentication with React Router](https://ui.dev/react-router-protected-routes-authentication)
 
 [Wikipedia: ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
@@ -174,3 +176,5 @@ User commands:
 [GitHub: react auth slice example](https://github.com/iammanishshrma/react-protected-routes/blob/master/src/store/slices/auth/authSlice.js)
 
 [StackOverflow: react authentication](https://stackoverflow.com/questions/72371670/how-do-i-setup-a-backend-such-as-node-js-express-with-reactusing-vite-also-how)
+
+[]

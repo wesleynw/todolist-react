@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie";
 import FormInputField from "./FormInputField";
+import Navbar from "./Navbar";
+import Cookies from "js-cookie";
 
 function Signup() {
   document.title = "Create Account";
   const navigate = useNavigate();
+  useEffect(() => {
+    if (Cookies.get("token")) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
+
   const initialState = {
     name: "",
     email: "",
@@ -29,36 +36,39 @@ function Signup() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:3000/create-account",
-        formData
-      );
-      Cookies.set("token", response.data.token);
+      await axios.post("http://localhost:3000/create-account", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
       navigate("/dashboard");
     } catch (error) {
-      setErrors(initialState);
-
-      const mappedErrors = error.response.data.errors.reduce((acc, error) => {
-        switch (error.path) {
-          case "name":
-            return { ...acc, name: error.msg };
-          case "email":
-            return { ...acc, email: error.msg };
-          case "password":
-            return { ...acc, password: error.msg };
-          case "password_confirmation":
-            return { ...acc, password_confirmation: error.msg };
-          default:
-            return acc;
-        }
-      });
-
-      setErrors(mappedErrors);
+      if (error.response && error.response.data && error.response.data.errors) {
+        setErrors(initialState);
+        const serverErrors = error.response.data.errors;
+        const mappedErrors = serverErrors.reduce((acc, error) => {
+          switch (error.path) {
+            case "name":
+              return { ...acc, name: error.msg };
+            case "email":
+              return { ...acc, email: error.msg };
+            case "password":
+              return { ...acc, password: error.msg };
+            case "password_confirmation":
+              return { ...acc, password_confirmation: error.msg };
+            default:
+              return acc;
+          }
+        }, {});
+        setErrors(mappedErrors);
+      }
     }
   };
 
   return (
     <>
+      <Navbar />
       <h2 className="title">Create an account</h2>
       <p className="formSubtitle">
         Or{" "}

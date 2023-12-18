@@ -1,7 +1,13 @@
 const express = require("express");
 var cors = require("cors");
+const cookieParser = require("cookie-parser");
 const app = express();
 const port = 3000;
+
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 const {
   header,
@@ -12,6 +18,7 @@ const {
 
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
@@ -52,12 +59,32 @@ const UserSchema = new mongoose.Schema({
   name: String,
   email: String,
   password: String,
-  token: mongoose.Schema.Types.UUID,
   todolist: [TaskSchema],
 });
 
+function generateAccessToken(email) {
+  return jwt.sign({ email: email }, process.env.TOKEN_SECRET, {
+    expiresIn: "3600s",
+  });
+}
+
 // Compile model from schema
 const User = mongoose.model("Users", UserSchema);
+
+function authenticateToken(req, res, next) {
+  const token =
+    req.cookies && req.cookies["token"] && req.cookies["token"].split(" ")[1];
+
+  if (token == null) return res.sendStatus(401);
+
+  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+
+    req.user = user;
+
+    next();
+  });
+}
 
 app.post(
   "/create-account",
@@ -89,18 +116,17 @@ app.post(
     }
 
     const result = validationResult(req);
+    const data = matchedData(req);
     if (!result.isEmpty()) {
-      return res.status(422).send({ errors: result.array() });
+      return res.status(422).json({ errors: result.array() });
     }
 
     try {
-      bcrypt.hash(req.body.password, 10, async function (err, hash) {
-        // Store hash in the database
+      bcrypt.hash(data.password, 10, async function (err, hash) {
         let newUser = new User({
-          username: req.body.username,
-          email: req.body.email,
+          username: data.username,
+          email: data.email,
           password: hash,
-          token: uuidv4(),
           todolist: Array(0),
         });
 
@@ -108,11 +134,19 @@ app.post(
         let result = await newUser.save();
 
         if (result != newUser) {
-          throw new Error("db error");
+          throw new Error("db error"); // TODO: better error validation here
         }
 
-        console.log(`created user ${req.body.email}`);
-        return res.status(201).send({ token: newUser.token });
+        console.log(`created user ${data.email}`);
+        const token = generateAccessToken(data.email);
+        // return res.json(token);
+        return res
+          .status(201)
+          .cookie("token", "Bearer " + generateAccessToken(data.email), {
+            sameSite: "lax",
+            maxAge: 1000 * 60 * 60 * 24, // 24 hours
+          })
+          .json({ message: "success" });
       });
     } catch (err) {
       console.log(err);
@@ -127,7 +161,7 @@ app.post(
     .notEmpty()
     .isEmail()
     .custom(async (value) => {
-      const count = await User.find({ email: value }).countDocuments();
+      const count = await User.find({ email: { $eq: value } }).countDocuments();
       if (count == 0) {
         throw new Error("No account exists with this email!");
       }
@@ -143,20 +177,24 @@ app.post(
     }
 
     const result = validationResult(req);
+    const data = matchedData(req);
     if (!result.isEmpty()) {
-      return res.status(422).send({ errors: result.array() });
+      return res.status(422).json({ errors: result.array() });
     }
 
-    // let user = await User.exists
-
-    let user = await User.findOne({ email: req.body.email }).lean();
+    let user = await User.findOne({ email: { $eq: data.email } }).lean();
     if (user == null) {
-      return res.status(422).send({ errors: "user does not exist" });
+      return res.status(422).json({ errors: "user does not exist" });
     }
 
-    bcrypt.compare(req.body.password, user.password, function (err, result) {
+    bcrypt.compare(data.password, user.password, function (err, result) {
       if (result == true) {
-        return res.status(200).send({ token: user.token, errors: [] });
+        return res
+          .status(201)
+          .cookie("token", "Bearer " + generateAccessToken(user.email), {
+            maxAge: 60 * 60 * 60,
+          })
+          .json({ message: "success" });
       }
       return res
         .status(422)
@@ -165,29 +203,15 @@ app.post(
   }
 );
 
-app.get(
-  "/get-todo",
-  header("token").notEmpty().isUUID(),
-  async function (req, res) {
-    const result = validationResult(req);
-    if (!result.isEmpty()) {
-      return res.status(422).send({ errors: result.array() });
-    }
-
-    const user = await User.findOne({ token: req.headers.token }).exec();
-    if (user == null) {
-      return res.status(401).send({ errors: "session token invalid" });
-    }
-    if (user.token == req.headers.token) {
-      return res.send(user.todolist);
-    }
-  }
-);
+app.get("/get-todo", authenticateToken, async function (req, res) {
+  const user = await User.findOne({ email: { $eq: req.user.email } }).exec();
+  return res.json(user.todolist);
+});
 
 app.post(
   "/add-todo",
+  authenticateToken,
   body("key").notEmpty().isUUID(),
-  body("token").notEmpty().isUUID(),
   body("name").notEmpty().escape().isString(),
   body("date").notEmpty().isISO8601(),
   body("priority").notEmpty().escape().isString(),
@@ -198,10 +222,7 @@ app.post(
       return res.status(422).send({ errors: result.array() });
     }
 
-    const user = await User.findOne({ token: { $eq: data.token } }).exec();
-    if (user == null) {
-      return res.status(401).send({ errors: "session token invalid" });
-    }
+    const user = await User.findOne({ email: { $eq: req.user.email } }).exec();
     let newItem = {
       key: data.key,
       name: data.name,
@@ -217,7 +238,7 @@ app.post(
 
 app.post(
   "/delete-todo",
-  body("token").notEmpty().isUUID(),
+  authenticateToken,
   body("key").notEmpty(),
   async function (req, res) {
     const result = validationResult(req);
@@ -225,11 +246,7 @@ app.post(
       return res.status(422).send({ errors: result.array() });
     }
 
-    const user = await User.findOne({ token: req.body.token }).exec();
-    if (user == null) {
-      return res.status(401).send({ errors: "session token invalid" });
-    }
-
+    const user = await User.findOne({ email: req.user.email }).exec();
     user.todolist.pull({ key: req.body.key });
     await user.save();
 

@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie";
 import FormInputField from "./FormInputField";
+import Navbar from "./Navbar";
+import Cookies from "js-cookie";
 
 function Login() {
   document.title = "Login";
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (Cookies.get("token")) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
   const initialState = {
     email: "",
     password: "",
@@ -26,14 +33,17 @@ function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:3000/login",
-        formData
-      );
-      Cookies.set("token", response.data.token);
+      console.log(formData);
+      await axios.post("http://localhost:3000/login", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      // Cookies.set("token", response.data + ";SameSite=Strict");
       navigate("/dashboard");
     } catch (error) {
-      console.log("fjdskla");
+      console.log(error);
       setErrors(initialState);
 
       console.log("errors: ", error.response.data.errors);
@@ -56,6 +66,7 @@ function Login() {
 
   return (
     <>
+      <Navbar />
       <h2 className="title">Login to your account</h2>
       <p className="formSubtitle">
         Or{" "}

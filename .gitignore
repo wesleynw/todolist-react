@@ -15,6 +15,7 @@ dist-ssr
 *.local
 
 backend/db/data
+backend/.env
 
 # Editor directories and files
 .vscode/*
