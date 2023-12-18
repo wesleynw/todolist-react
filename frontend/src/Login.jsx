@@ -59,7 +59,6 @@ function Login() {
         },
         { ...initialState }
       );
-      console.log("mapped errors: ", mappedErrors);
       setErrors(mappedErrors);
     }
   };
