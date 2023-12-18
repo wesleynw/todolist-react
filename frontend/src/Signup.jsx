@@ -69,53 +69,55 @@ function Signup() {
   return (
     <>
       <Navbar />
-      <h2 className="title">Create an account</h2>
-      <p className="formSubtitle">
-        Or{" "}
-        <Link className="link" to="../login">
-          <span>sign in to an existing account</span>
-        </Link>
-      </p>
-      <form className="form" onSubmit={handleSubmit}>
-        <FormInputField
-          label="First name"
-          type="text"
-          name="name"
-          value={formData.name}
-          handleChange={handleChange}
-          errorMsg={errors.name}
-        />
+      <div className="main-body">
+        <h2 className="title">Create an account</h2>
+        <p className="formSubtitle">
+          Or{" "}
+          <Link className="link" to="../login">
+            <span>sign in to an existing account</span>
+          </Link>
+        </p>
+        <form className="form" onSubmit={handleSubmit}>
+          <FormInputField
+            label="First name"
+            type="text"
+            name="name"
+            value={formData.name}
+            handleChange={handleChange}
+            errorMsg={errors.name}
+          />
 
-        <FormInputField
-          label="Email"
-          type="email"
-          name="email"
-          value={formData.email}
-          handleChange={handleChange}
-          errorMsg={errors.email}
-        />
+          <FormInputField
+            label="Email"
+            type="email"
+            name="email"
+            value={formData.email}
+            handleChange={handleChange}
+            errorMsg={errors.email}
+          />
 
-        <FormInputField
-          label="Password"
-          type="password"
-          name="password"
-          value={formData.password}
-          handleChange={handleChange}
-          errorMsg={errors.password}
-        />
+          <FormInputField
+            label="Password"
+            type="password"
+            name="password"
+            value={formData.password}
+            handleChange={handleChange}
+            errorMsg={errors.password}
+          />
 
-        <FormInputField
-          label="Password confirmation"
-          type="password"
-          name="password_confirmation"
-          value={formData.password_confirmation}
-          handleChange={handleChange}
-          errorMsg={errors.password_confirmation}
-        />
-        <button type="submit">
-          <h3 className="submitButtonText">Create Account</h3>
-        </button>
-      </form>
+          <FormInputField
+            label="Password confirmation"
+            type="password"
+            name="password_confirmation"
+            value={formData.password_confirmation}
+            handleChange={handleChange}
+            errorMsg={errors.password_confirmation}
+          />
+          <button className="button width-100" type="submit">
+            <h3 className="submitButtonText">Create Account</h3>
+          </button>
+        </form>
+      </div>
     </>
   );
 }

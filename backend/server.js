@@ -192,7 +192,7 @@ app.post(
         return res
           .status(201)
           .cookie("token", "Bearer " + generateAccessToken(user.email), {
-            maxAge: 60 * 60 * 60,
+            expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
           })
           .json({ message: "success" });
       }
@@ -213,8 +213,8 @@ app.post(
   authenticateToken,
   body("key").notEmpty().isUUID(),
   body("name").notEmpty().escape().isString(),
-  body("date").notEmpty().isISO8601(),
-  body("priority").notEmpty().escape().isString(),
+  // body("date").isISO8601().optional(),
+  // body("priority").escape().isString().optional(),
   async function (req, res) {
     const result = validationResult(req);
     const data = matchedData(req);

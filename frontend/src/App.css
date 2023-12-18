@@ -33,7 +33,20 @@ body {
   font-family: Lexend;
   width: 100%;
   margin: 0;
-  /* position: relative; */
+}
+
+.main-body {
+  width: 100%;
+  /* text-align: center; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (min-width: 800px) {
+  .main-body {
+    max-width: 50vw;
+  }
 }
 
 .navbar {
@@ -66,7 +79,7 @@ a {
   padding-top: 10px;
   padding-bottom: 0;
   margin-bottom: 0;
-  max-width: 95%;
+  /* max-width: 95%; */
   text-align: center;
 }
 
@@ -89,14 +102,8 @@ a {
   margin-right: auto;
 }
 
-@media (min-width: 640px) {
-  .form {
-    max-width: 28rem;
-  }
-}
-
 button {
-  color: white;
+  /* color: white;
   background-color: black;
   margin-top: 40px;
   padding: 10px;
@@ -104,15 +111,31 @@ button {
   border: 1px solid #ddd;
   cursor: pointer;
   width: 100%;
+  font-family: "Lexend"; */
+}
+
+.button {
+  color: white;
+  background-color: black;
+  padding: 10px;
+  margin: 3px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  cursor: pointer;
   font-family: "Lexend";
 }
 
-button:hover {
+.width-100 {
+  width: 100%;
+}
+
+.button:hover {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-.add-task-button-container {
-  max-width: 300px;
+.add-task-button-cancel {
+  background-color: whitesmoke;
+  color: black;
 }
 
 .submitButtonText {
@@ -122,12 +145,13 @@ button:hover {
 
 .task-list {
   text-align: center;
+  width: 100%;
 }
 
 .task {
-  border: 2px solid #ddd;
+  border: 1px solid #ddd;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   padding: 15px;
   margin: 10px;
@@ -135,10 +159,10 @@ button:hover {
   transition: background-color 0.1s;
 }
 
-.task:hover {
+/* .task:hover {
   background-color: #e6e6e3;
   cursor: pointer;
-}
+} */
 
 .task-name {
   padding-left: 5px;
@@ -181,6 +205,33 @@ input {
   border: 1px solid #ddd;
   border-radius: 5px;
   width: calc(100% - 20px);
+  font-weight: 500;
+}
+
+/* input:focus {
+  border: 0px;
+  outline: none;
+} */
+
+.new-task input {
+  border: 0;
+  font-weight: 600;
+  font-size: medium;
+}
+
+.new-task input:focus {
+  outline: none;
+}
+
+.new-task-date-input-container {
+  position: relative;
+}
+
+.new-task-date-input {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 input[type="date"] {
@@ -209,4 +260,14 @@ input[type="date"] {
 
 a:hover {
   text-decoration: underline;
+}
+
+.add-task-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.add-task-button {
+  max-width: 50%;
 }

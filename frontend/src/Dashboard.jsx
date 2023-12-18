@@ -12,6 +12,7 @@ const Dashboard = () => {
   document.title = "Todo List";
   const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
+  const [isNewTask, setIsNewTask] = useState(false);
   // const token = Cookies.get("token");
 
   useEffect(() => {
@@ -68,7 +69,7 @@ const Dashboard = () => {
 
   const logout = () => {
     Cookies.remove("token");
-    navigate("/signup");
+    navigate("/login");
   };
 
   return (
@@ -92,18 +93,27 @@ const Dashboard = () => {
               ))}
             </>
           )}
-        </div>
 
-        <div className="task-list">
-          <TaskSkeleton addTask={addTask} />
+          {isNewTask == true ? (
+            <div className="task-list add-task-section">
+              <TaskSkeleton
+                addTask={addTask}
+                cancelTask={() => setIsNewTask(false)}
+              />
+            </div>
+          ) : (
+            <button
+              onClick={() => setIsNewTask(true)}
+              className="button add-task-button width-100"
+            >
+              + Add Task
+            </button>
+          )}
         </div>
       </div>
 
       <div className="footer">
         <a onClick={logout}>log out</a>
-        {/* <button id="logout-button" onClick={logout}>
-          log out
-        </button> */}
       </div>
     </>
   );

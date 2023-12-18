@@ -66,36 +66,38 @@ function Login() {
   return (
     <>
       <Navbar />
-      <h2 className="title">Login to your account</h2>
-      <p className="formSubtitle">
-        Or{" "}
-        <Link className="link" to="../signup">
-          <span>create a new account</span>
-        </Link>
-      </p>
-      <form className="form" onSubmit={handleSubmit}>
-        <FormInputField
-          label="Email"
-          type="email"
-          name="email"
-          value={formData.email}
-          handleChange={handleChange}
-          errorMsg={errors.email}
-        />
+      <div className="main-body">
+        <h2 className="title">Login to your account</h2>
+        <p className="formSubtitle">
+          Or{" "}
+          <Link className="link" to="../signup">
+            <span>create a new account</span>
+          </Link>
+        </p>
+        <form className="form" onSubmit={handleSubmit}>
+          <FormInputField
+            label="Email"
+            type="email"
+            name="email"
+            value={formData.email}
+            handleChange={handleChange}
+            errorMsg={errors.email}
+          />
 
-        <FormInputField
-          label="Password"
-          type="password"
-          name="password"
-          value={formData.password}
-          handleChange={handleChange}
-          errorMsg={errors.password}
-        />
+          <FormInputField
+            label="Password"
+            type="password"
+            name="password"
+            value={formData.password}
+            handleChange={handleChange}
+            errorMsg={errors.password}
+          />
 
-        <button type="submit">
-          <h3 className="submitButtonText">Log in</h3>
-        </button>
-      </form>
+          <button className="button width-100" type="submit">
+            <h3 className="submitButtonText">Log in</h3>
+          </button>
+        </form>
+      </div>
     </>
   );
 }
