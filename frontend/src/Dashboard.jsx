@@ -19,7 +19,7 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://wesleyweisenberger.xyz:3000/get-todo",
+          "https://wesleyweisenberger.xyz:3000/get-todo",
           {
             withCredentials: true,
           }
@@ -51,7 +51,7 @@ const Dashboard = () => {
 
     try {
       await axios.post(
-        "http://wesleyweisenberger.xyz:3000/add-todo",
+        "https://wesleyweisenberger.xyz:3000/add-todo",
         taskData,
         {
           withCredentials: true,
@@ -67,7 +67,7 @@ const Dashboard = () => {
   const removeTask = async (key) => {
     try {
       await axios.post(
-        "http://wesleyweisenberger.xyz:3000/delete-todo",
+        "https://wesleyweisenberger.xyz:3000/delete-todo",
         { key: key },
         { withCredentials: true }
       );
