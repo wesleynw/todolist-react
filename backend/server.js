@@ -87,7 +87,7 @@ function authenticateToken(req, res, next) {
 }
 
 app.post(
-  "/create-account",
+  "/api/create-account",
   body("name").notEmpty().trim().escape().withMessage("invalid name"),
   body("email")
     .notEmpty()
@@ -157,7 +157,7 @@ app.post(
 );
 
 app.post(
-  "/login",
+  "/api/login",
   body("email")
     .notEmpty()
     .isEmail()
@@ -205,13 +205,13 @@ app.post(
   }
 );
 
-app.get("/get-todo", authenticateToken, async function (req, res) {
+app.get("/api/get-todo", authenticateToken, async function (req, res) {
   const user = await User.findOne({ email: { $eq: req.user.email } }).exec();
   return res.json(user.todolist);
 });
 
 app.post(
-  "/add-todo",
+  "/api/add-todo",
   authenticateToken,
   body("key").notEmpty().isUUID(),
   body("name").notEmpty().escape().isString(),
@@ -239,7 +239,7 @@ app.post(
 );
 
 app.post(
-  "/delete-todo",
+  "/api/delete-todo",
   authenticateToken,
   body("key").notEmpty(),
   async function (req, res) {
