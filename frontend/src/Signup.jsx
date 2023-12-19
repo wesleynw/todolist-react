@@ -37,7 +37,7 @@ function Signup() {
     event.preventDefault();
     try {
       await axios.post(
-        "https://wesleyweisenberger.xyz/create-account",
+        "https://wesleyweisenberger.xyz/api/create-account",
         formData,
         {
           headers: {

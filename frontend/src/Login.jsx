@@ -34,7 +34,7 @@ function Login() {
     event.preventDefault();
     try {
       console.log(formData);
-      await axios.post("https://wesleyweisenberger.xyz/login", formData, {
+      await axios.post("https://wesleyweisenberger.xyz/api/login", formData, {
         headers: {
           "Content-Type": "application/json",
         },

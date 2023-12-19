@@ -19,7 +19,7 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://wesleyweisenberger.xyz/get-todo",
+          "https://wesleyweisenberger.xyz/api/get-todo",
           {
             withCredentials: true,
           }
@@ -50,9 +50,13 @@ const Dashboard = () => {
     };
 
     try {
-      await axios.post("https://wesleyweisenberger.xyz/add-todo", taskData, {
-        withCredentials: true,
-      });
+      await axios.post(
+        "https://wesleyweisenberger.xyz/api/add-todo",
+        taskData,
+        {
+          withCredentials: true,
+        }
+      );
     } catch (error) {
       console.error("Error adding task:", error);
     }
@@ -63,7 +67,7 @@ const Dashboard = () => {
   const removeTask = async (key) => {
     try {
       await axios.post(
-        "https://wesleyweisenberger.xyz/delete-todo",
+        "https://wesleyweisenberger.xyz/api/delete-todo",
         { key: key },
         { withCredentials: true }
       );
