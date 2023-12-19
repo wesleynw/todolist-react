@@ -34,7 +34,7 @@ function Login() {
     event.preventDefault();
     try {
       console.log(formData);
-      await axios.post("http://localhost:3000/login", formData, {
+      await axios.post("http://wesleyweisenberger.xyz:3000/login", formData, {
         headers: {
           "Content-Type": "application/json",
         },

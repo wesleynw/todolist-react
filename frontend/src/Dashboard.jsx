@@ -18,9 +18,12 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/get-todo", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          "http://wesleyweisenberger.xyz:3000/get-todo",
+          {
+            withCredentials: true,
+          }
+        );
         setTasks(response.data);
       } catch (error) {
         navigate("/login");
@@ -47,9 +50,13 @@ const Dashboard = () => {
     };
 
     try {
-      await axios.post("http://localhost:3000/add-todo", taskData, {
-        withCredentials: true,
-      });
+      await axios.post(
+        "http://wesleyweisenberger.xyz:3000/add-todo",
+        taskData,
+        {
+          withCredentials: true,
+        }
+      );
     } catch (error) {
       console.error("Error adding task:", error);
     }
@@ -60,7 +67,7 @@ const Dashboard = () => {
   const removeTask = async (key) => {
     try {
       await axios.post(
-        "http://localhost:3000/delete-todo",
+        "http://wesleyweisenberger.xyz:3000/delete-todo",
         { key: key },
         { withCredentials: true }
       );

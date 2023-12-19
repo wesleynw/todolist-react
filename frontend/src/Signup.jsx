@@ -36,12 +36,16 @@ function Signup() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post("http://localhost:3000/create-account", formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      });
+      await axios.post(
+        "http://wesleyweisenberger.xyz:3000/create-account",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
       navigate("/dashboard");
     } catch (error) {
       if (error.response && error.response.data && error.response.data.errors) {
