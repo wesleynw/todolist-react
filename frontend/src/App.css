@@ -25,6 +25,12 @@
   font-weight: normal;
 }
 
+@font-face {
+  font-family: "Lexend";
+  src: url(./fonts/LexendDeca-Light.ttf) format("truetype");
+  font-weight: 300;
+}
+
 body {
   display: flex;
   flex-direction: column;
@@ -41,11 +47,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 100vh;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 650px) {
   .main-body {
-    max-width: 50vw;
+    max-width: 600px;
   }
 }
 
@@ -102,18 +109,6 @@ a {
   margin-right: auto;
 }
 
-button {
-  /* color: white;
-  background-color: black;
-  margin-top: 40px;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  cursor: pointer;
-  width: 100%;
-  font-family: "Lexend"; */
-}
-
 .button {
   color: white;
   background-color: black;
@@ -150,38 +145,42 @@ button {
 
 .task {
   border: 1px solid #ddd;
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-between; */
   padding: 15px;
   margin: 10px;
   border-radius: 10px;
   transition: background-color 0.1s;
 }
 
-/* .task:hover {
-  background-color: #e6e6e3;
-  cursor: pointer;
-} */
-
-.task-name {
-  padding-left: 5px;
-}
-
-.task-button {
-  /* background-color: white; */
+.remove-task-button {
+  border: 1px #252525 solid;
   padding: 0;
   margin: 0;
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  fill: gray;
-  /* background-color: black; */
   background: transparent;
+  cursor: pointer;
+  transition: background-color 0.1s;
+}
+
+.remove-task-button:hover {
+  background-color: rgb(197, 197, 197);
 }
 
 .task-time {
-  padding-right: 15px;
+  font-weight: 300;
+  font-size: small;
+  margin: 0;
+  /* padding: 0; */
+  padding-top: 10px;
+  padding-left: 5px;
+}
+
+.task-name {
+  padding-left: 5px;
 }
 
 .flexbox-row {
@@ -200,12 +199,16 @@ button {
   width: 100%;
 }
 
-input {
+.input {
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
   width: calc(100% - 20px);
-  font-weight: 500;
+  /* font-weight: 500; */
+}
+
+.react-datepicker__input-container {
+  text-align: left;
 }
 
 /* input:focus {
@@ -213,10 +216,41 @@ input {
   outline: none;
 } */
 
-.new-task input {
-  border: 0;
+.new-task-title {
   font-weight: 600;
   font-size: medium;
+  margin-bottom: 5px;
+}
+
+.new-task input {
+  border: 0;
+  /* font-weight: 600; */
+  /* font-size: medium; */
+}
+
+.flex-row-at-start {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  /* justify-content: center; */
+}
+
+.flex-col-at-start {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.flex-col-at-end {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .new-task input:focus {
@@ -234,15 +268,6 @@ input {
   left: 0;
 }
 
-input[type="date"] {
-  /* display: none; */
-  /* appearance: button;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  color: red; */
-}
-
 .error-msg {
   color: red;
   font-size: smaller;
@@ -253,9 +278,8 @@ input[type="date"] {
 }
 
 .footer {
-  position: fixed;
-  bottom: 5%;
   text-align: center;
+  padding-bottom: 30px;
 }
 
 a:hover {

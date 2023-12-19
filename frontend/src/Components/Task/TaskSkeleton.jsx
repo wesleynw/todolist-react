@@ -1,16 +1,29 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import subDays from "date-fns/subDays";
 
-function TaskSkeleton({ addTask, cancelTask }) {
+function TaskSkeleton({ addTask, cancelTask, inputRefForward }) {
   const skeleton = {
     name: "",
-    date: "",
+    date: undefined,
     priority: "",
   };
   const [formData, setFormData] = useState(skeleton);
-  const [startDate, setStartDate] = useState(new Date());
+
+  const inputRef = useRef(null);
+  useEffect(() => {
+    if (inputRefForward) {
+      inputRefForward.current = inputRef.current;
+    }
+  }, [inputRefForward]);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -34,63 +47,46 @@ function TaskSkeleton({ addTask, cancelTask }) {
 
   return (
     <form className="task new-task" onSubmit={handleSubmit} autoComplete="off">
-      {/* <div className="flexbox-vert-left-align"> */}
-      <input
-        name="name"
-        placeholder="Task name"
-        className="new-task-input"
-        onChange={handleChange}
-        value={formData.name}
-        required
-      />
-      <DatePicker
-        selected={startDate}
-        onChange={(date) => setStartDate(date)}
-      />
-
-      {/* <div className="new-task-date-input-container"> */}
-      {/* <input
-          name="date"
-          className="new-task-date-input"
-          type="date"
-          ref={datePickerRef}
+      <div className="flex-col-at-start">
+        <input
+          name="name"
+          placeholder="Task name"
+          className="new-task-title width-100"
           onChange={handleChange}
-          value={formData.date}
+          value={formData.name}
           required
-        /> */}
-      {/* <button onClick={handleButtonClick}>select a date</button>
-      </div> */}
-
-      {/* <select
-        name="priority"
-        className="new-task-input"
-        onChange={handleChange}
-        value={formData.priority}
-        required
-      >
-        <option value="None">None</option>
-        <option value="Low">Low</option>
-        <option value="Med">Medium</option>
-        <option value="High">High</option>
-      </select> */}
-      {/* </div> */}
-      {/* <div className="flexbox-horiz"> */}
-      <div className="add-task-button-container">
-        <div>
-          <button
-            className="button add-task-button-cancel"
-            onClick={handleCancelTask}
-          >
-            Cancel
-          </button>
-        </div>
-        <div>
-          <button className="button" type="submit">
-            + Add Task
-          </button>
+          ref={inputRef}
+          data-1p-ignore
+        />
+        <div className="flex-row-at-start">
+          <DatePicker
+            showicon
+            selected={formData.date}
+            onChange={(date) =>
+              setFormData((formData) => ({ ...formData, date: date }))
+            }
+            minDate={subDays(new Date(), 2)}
+            placeholderText="Set due date..."
+          />
         </div>
       </div>
-      {/* </div> */}
+      <div className="flex-col-at-end">
+        <div className="add-task-button-container">
+          <div>
+            <button
+              className="button add-task-button-cancel"
+              onClick={handleCancelTask}
+            >
+              Cancel
+            </button>
+          </div>
+          <div>
+            <button className="button" type="submit">
+              + Add Task
+            </button>
+          </div>
+        </div>
+      </div>
     </form>
   );
 }
@@ -100,4 +96,5 @@ export default TaskSkeleton;
 TaskSkeleton.propTypes = {
   addTask: PropTypes.func,
   cancelTask: PropTypes.func,
+  inputRefForward: PropTypes.any,
 };

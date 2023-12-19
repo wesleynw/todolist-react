@@ -64,7 +64,7 @@ const UserSchema = new mongoose.Schema({
 
 function generateAccessToken(email) {
   return jwt.sign({ email: email }, process.env.TOKEN_SECRET, {
-    expiresIn: "3600s",
+    expiresIn: "14d",
   });
 }
 
@@ -92,6 +92,7 @@ app.post(
   body("email")
     .notEmpty()
     .isEmail()
+    .toLowerCase()
     .withMessage("This is not a valid email")
     .custom(async (value) => {
       const count = await User.find({ email: value }).countDocuments();
@@ -144,7 +145,7 @@ app.post(
           .status(201)
           .cookie("token", "Bearer " + generateAccessToken(data.email), {
             sameSite: "lax",
-            maxAge: 1000 * 60 * 60 * 24, // 24 hours
+            expires: new Date(Date.now() + 2 * 7 * 24 * 60 * 60 * 1000),
           })
           .json({ message: "success" });
       });
@@ -160,6 +161,7 @@ app.post(
   body("email")
     .notEmpty()
     .isEmail()
+    .toLowerCase()
     .custom(async (value) => {
       const count = await User.find({ email: { $eq: value } }).countDocuments();
       if (count == 0) {
@@ -192,7 +194,7 @@ app.post(
         return res
           .status(201)
           .cookie("token", "Bearer " + generateAccessToken(user.email), {
-            expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+            expires: new Date(Date.now() + 2 * 7 * 24 * 60 * 60 * 1000),
           })
           .json({ message: "success" });
       }
@@ -213,7 +215,7 @@ app.post(
   authenticateToken,
   body("key").notEmpty().isUUID(),
   body("name").notEmpty().escape().isString(),
-  // body("date").isISO8601().optional(),
+  body("date").isISO8601().optional(),
   // body("priority").escape().isString().optional(),
   async function (req, res) {
     const result = validationResult(req);

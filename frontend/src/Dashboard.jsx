@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import Task from "./Components/Task/Task.jsx";
@@ -13,13 +13,9 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
   const [isNewTask, setIsNewTask] = useState(false);
-  // const token = Cookies.get("token");
+  const inputRef = useRef(null);
 
   useEffect(() => {
-    // if (token == undefined) {
-    //   navigate("/signup");
-    // }
-
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:3000/get-todo", {
@@ -33,6 +29,14 @@ const Dashboard = () => {
     };
     fetchData();
   }, [navigate]);
+
+  const openNewTaskField = () => {
+    setIsNewTask(true);
+
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
 
   const addTask = async (name, date, priority) => {
     const taskData = {
@@ -60,7 +64,6 @@ const Dashboard = () => {
         { key: key },
         { withCredentials: true }
       );
-
       setTasks(tasks.filter((item) => item.key !== key));
     } catch (error) {
       console.error("Error removing task", error);
@@ -78,10 +81,6 @@ const Dashboard = () => {
       <div className={"main-body"}>
         <h1 className="title">Today&apos;s To-Do List</h1>
         <LineAcrossPage />
-        {/* <div className="one-line"> */}
-        {/* <h1 id="sort">Sort by</h1> */}
-        {/* <TaskManager /> */}
-        {/* </div> */}
 
         <div className="task-list">
           {tasks.length == 0 ? (
@@ -99,11 +98,12 @@ const Dashboard = () => {
               <TaskSkeleton
                 addTask={addTask}
                 cancelTask={() => setIsNewTask(false)}
+                inputRefForward={inputRef}
               />
             </div>
           ) : (
             <button
-              onClick={() => setIsNewTask(true)}
+              onClick={openNewTaskField}
               className="button add-task-button width-100"
             >
               + Add Task

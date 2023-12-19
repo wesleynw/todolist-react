@@ -5,6 +5,7 @@ function FormInputField({ label, type, name, value, handleChange, errorMsg }) {
     <div className="field">
       <p className="field-label">{label}</p>
       <input
+        className="input"
         type={type}
         name={name}
         value={value}
