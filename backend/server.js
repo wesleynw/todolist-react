@@ -2,7 +2,7 @@ const express = require("express");
 // var cors = require("cors");
 const cookieParser = require("cookie-parser");
 const app = express();
-const port = 80;
+const port = 3000;
 
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
