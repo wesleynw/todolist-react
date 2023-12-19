@@ -1,8 +1,8 @@
 const express = require("express");
-var cors = require("cors");
+// var cors = require("cors");
 const cookieParser = require("cookie-parser");
 const app = express();
-const port = 3000;
+const port = 80;
 
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
@@ -17,7 +17,7 @@ const {
 } = require("express-validator");
 
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
 app.use(cookieParser());
 
 const mongoose = require("mongoose");
