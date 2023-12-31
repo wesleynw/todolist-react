@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import FormInputField from "./FormInputField";
+import FormInputField from "./Components/FormInputField";
 import Navbar from "./Navbar";
 import Cookies from "js-cookie";
 
