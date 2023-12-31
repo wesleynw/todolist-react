@@ -18,12 +18,9 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "https://wesleyweisenberger.xyz/api/get-todo",
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.get("/get-todo", {
+          withCredentials: true,
+        });
         setTasks(response.data);
       } catch (error) {
         navigate("/login");
@@ -50,13 +47,9 @@ const Dashboard = () => {
     };
 
     try {
-      await axios.post(
-        "https://wesleyweisenberger.xyz/api/add-todo",
-        taskData,
-        {
-          withCredentials: true,
-        }
-      );
+      await axios.post("/add-todo", taskData, {
+        withCredentials: true,
+      });
     } catch (error) {
       console.error("Error adding task:", error);
     }
@@ -66,11 +59,7 @@ const Dashboard = () => {
 
   const removeTask = async (key) => {
     try {
-      await axios.post(
-        "https://wesleyweisenberger.xyz/api/delete-todo",
-        { key: key },
-        { withCredentials: true }
-      );
+      await axios.post("/delete-todo", { key: key }, { withCredentials: true });
       setTasks(tasks.filter((item) => item.key !== key));
     } catch (error) {
       console.error("Error removing task", error);

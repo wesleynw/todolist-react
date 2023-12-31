@@ -24,6 +24,8 @@ function Signup() {
   const [formData, setFormData] = useState(initialState);
   const [errors, setErrors] = useState(initialState);
 
+  axios.defaults.baseURL = import.meta.env.VITE_API_ENDPOINT;
+
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -36,16 +38,12 @@ function Signup() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post(
-        "https://wesleyweisenberger.xyz/api/create-account",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+      await axios.post("/create-account", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
       navigate("/dashboard");
     } catch (error) {
       if (error.response && error.response.data && error.response.data.errors) {

@@ -30,17 +30,18 @@ function Login() {
     }));
   };
 
+  axios.defaults.baseURL = import.meta.env.VITE_API_ENDPOINT;
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       console.log(formData);
-      await axios.post("https://wesleyweisenberger.xyz/api/login", formData, {
+      await axios.post("/login", formData, {
         headers: {
           "Content-Type": "application/json",
         },
         withCredentials: true,
       });
-      // Cookies.set("token", response.data + ";SameSite=Strict");
       navigate("/dashboard");
     } catch (error) {
       console.log(error);
