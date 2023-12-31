@@ -42,6 +42,7 @@ body {
 }
 
 .main-body {
+  width: 100%;
   max-width: 600px;
   display: flex;
   flex-direction: column;
