@@ -177,11 +177,25 @@ a {
   border-radius: 50%;
   background: transparent;
   cursor: pointer;
+  flex-shrink: 0;
   transition: background-color 0.1s;
 }
 
-.remove-task-button:hover {
-  background-color: rgb(197, 197, 197);
+.remove-task-button:disabled {
+  opacity: 0.4;
+  cursor: inherit;
+}
+
+.remove-task-checkbox {
+  opacity: 0;
+  width: 70%;
+  height: 70%;
+  transition: opacity 0.05s;
+}
+
+.remove-task-checkbox:hover {
+  cursor: pointer;
+  opacity: 0.8;
 }
 
 .task-time {
@@ -225,14 +239,19 @@ a {
   text-align: left;
 }
 
+.date-picker {
+  /* font-size: medium; */
+}
+
 .new-task-title {
-  font-weight: 600;
   font-size: medium;
   margin-bottom: 5px;
+  padding-left: 5px;
 }
 
 .new-task input {
   border: 0;
+  font-family: inherit;
 }
 
 .flex-row-at-start {

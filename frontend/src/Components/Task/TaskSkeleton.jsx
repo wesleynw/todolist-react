@@ -47,19 +47,24 @@ function TaskSkeleton({ addTask, cancelTask, inputRefForward }) {
 
   return (
     <form className="task new-task" onSubmit={handleSubmit} autoComplete="off">
-      <div className="flex-col-at-start">
-        <input
-          name="name"
-          placeholder="Task name"
-          className="new-task-title width-100"
-          onChange={handleChange}
-          value={formData.name}
-          required
-          ref={inputRef}
-          data-1p-ignore
-        />
+      <div className="">
+        <div className="flex-row-at-start">
+          <button className="remove-task-button" disabled={true}></button>
+          <input
+            name="name"
+            placeholder="Task name"
+            className="new-task-title width-100"
+            onChange={handleChange}
+            value={formData.name}
+            required
+            ref={inputRef}
+            data-1p-ignore
+          />
+        </div>
+
         <div className="flex-row-at-start">
           <DatePicker
+            className="date-picker"
             showicon
             selected={formData.date}
             onChange={(date) =>
