@@ -15,6 +15,8 @@ const Dashboard = () => {
   const [isNewTask, setIsNewTask] = useState(false);
   const inputRef = useRef(null);
 
+  axios.defaults.baseURL = import.meta.env.VITE_API_ENDPOINT;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
