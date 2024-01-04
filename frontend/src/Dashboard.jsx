@@ -68,6 +68,27 @@ const Dashboard = () => {
     }
   };
 
+  const changeTaskDate = async (key, date) => {
+    try {
+      await axios.post(
+        "/change-todo-date",
+        { key: key, date: date },
+        { withCredentials: true }
+      );
+
+      const updatedTasks = tasks.map((item) => {
+        if (item.key === key) {
+          return { ...item, [date]: date };
+        }
+        return item;
+      });
+
+      setTasks(updatedTasks);
+    } catch (error) {
+      console.log("Error changing task date");
+    }
+  };
+
   const logout = () => {
     Cookies.remove("token");
     navigate("/login");
@@ -86,7 +107,12 @@ const Dashboard = () => {
           ) : (
             <>
               {tasks.map((task) => (
-                <Task key={task.key} removeTask={removeTask} task={task} />
+                <Task
+                  key={task.key}
+                  removeTask={removeTask}
+                  changeTaskDate={changeTaskDate}
+                  task={task}
+                />
               ))}
             </>
           )}
@@ -111,7 +137,10 @@ const Dashboard = () => {
       </div>
 
       <div className="footer">
-        <a onClick={logout}>log out</a>
+        <a className="logout-button" onClick={logout}>
+          log out
+        </a>
+        <p>Created by Wesley Weisenberger</p>
       </div>
     </>
   );

@@ -140,7 +140,6 @@ app.post(
 
         console.log(`created user ${data.email}`);
         const token = generateAccessToken(data.email);
-        // return res.json(token);
         return res
           .status(201)
           .cookie("token", "Bearer " + generateAccessToken(data.email), {
@@ -216,7 +215,6 @@ app.post(
   body("key").notEmpty().isUUID(),
   body("name").notEmpty().escape().isString(),
   body("date").isISO8601().optional(),
-  // body("priority").escape().isString().optional(),
   async function (req, res) {
     const result = validationResult(req);
     const data = matchedData(req);
@@ -235,6 +233,28 @@ app.post(
     await user.save();
 
     return res.sendStatus(201);
+  }
+);
+
+app.post(
+  "/api/change-todo-date",
+  authenticateToken,
+  body("key").notEmpty().isUUID(),
+  body("date").isISO8601(),
+  async function (req, res) {
+    const result = validationResult(req);
+    const data = matchedData(req);
+    if (!result.isEmpty()) {
+      return res.status(422).send({ errors: result.array() });
+    }
+
+    await User.findOneAndUpdate(
+      { email: { $eq: req.user.email }, "todolist.key": { $eq: data.key } },
+      { $set: { "todolist.$.date": data.date } },
+      { new: true }
+    ).exec();
+
+    return res.sendStatus(200);
   }
 );
 

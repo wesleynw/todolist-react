@@ -34,6 +34,13 @@ function TaskSkeleton({ addTask, cancelTask, inputRefForward }) {
     }));
   };
 
+  const handleKeyPress = (event) => {
+    console.log(event);
+    if (event.keyCode === 13) {
+      handleSubmit(event);
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     await addTask(formData.name, formData.date, formData.priority); // TODO: error check this, don't add if there was a server error
@@ -53,11 +60,12 @@ function TaskSkeleton({ addTask, cancelTask, inputRefForward }) {
           <input
             name="name"
             placeholder="Task name"
-            className="new-task-title width-100"
+            className="new-task-title"
             onChange={handleChange}
             value={formData.name}
             required
             ref={inputRef}
+            onKeyDown={handleKeyPress}
             data-1p-ignore
           />
         </div>
