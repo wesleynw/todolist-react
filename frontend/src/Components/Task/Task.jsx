@@ -3,39 +3,42 @@ import TaskDueDate from "./TaskDueDate";
 
 function Task({ removeTask, changeTaskDate, task }) {
   return (
-    <li className="task flex-row-at-start">
-      <button
-        className="remove-task-button flexbox-row"
-        onClick={() => {
-          setTimeout(() => {
-            removeTask(task.key);
-          }, 250);
-        }}
-      >
-        <svg
-          className="remove-task-checkbox"
-          fill="#000000"
-          width="800px"
-          height="800px"
-          viewBox="0 0 1920 1920"
-          xmlns="http://www.w3.org/2000/svg"
+    <li className="task flex-col-at-start">
+      <div className="flex-row-at-start">
+        <button
+          className="remove-task-button flexbox-row"
+          onClick={() => {
+            setTimeout(() => {
+              removeTask(task.key);
+            }, 250);
+          }}
         >
-          <path
-            d="M1743.858 267.012 710.747 1300.124 176.005 765.382 0 941.387l710.747 710.871 1209.24-1209.116z"
-            fillRule="evenodd"
-          />
-        </svg>
-      </button>
-      <div className="flex-col-at-start">
+          <svg
+            className="remove-task-checkbox"
+            fill="#000000"
+            width="800px"
+            height="800px"
+            viewBox="0 0 1920 1920"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1743.858 267.012 710.747 1300.124 176.005 765.382 0 941.387l710.747 710.871 1209.24-1209.116z"
+              fillRule="evenodd"
+            />
+          </svg>
+        </button>
         <span className="task-name">{task.name}</span>
-        <TaskDueDate
-          dateStr={task.date}
-          changeTaskDate={(
-            (key) => (dateStr) =>
-              changeTaskDate(key, dateStr)
-          )(task.key)}
-        />
       </div>
+
+      {/* <div className="flex-col-at-start"> */}
+      <TaskDueDate
+        dateStr={task.date}
+        changeTaskDate={(
+          (key) => (dateStr) =>
+            changeTaskDate(key, dateStr)
+        )(task.key)}
+      />
+      {/* </div> */}
     </li>
   );
 }

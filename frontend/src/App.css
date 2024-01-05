@@ -195,11 +195,6 @@ a {
   transition: opacity 0.05s;
 }
 
-.remove-task-checkbox:hover {
-  /* cursor: pointer;
-  opacity: 0.8; */
-}
-
 /* CSS for non-mobile devices or when hovered */
 @media (hover: hover) {
   .remove-task-checkbox:hover {
@@ -213,7 +208,7 @@ a {
 .task-time-wrapper {
   outline: 1px solid grey;
   border-radius: 5px;
-  margin-left: 8px;
+  margin-left: 25px;
   margin-top: 5px;
   cursor: pointer;
 }
@@ -258,6 +253,7 @@ a {
 }
 
 .new-task-title {
+  padding: 0;
   padding-left: 5px;
   height: 20px;
   flex-grow: 1;

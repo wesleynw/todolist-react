@@ -80,13 +80,6 @@ function TaskSkeleton({ addTask, cancelTask, inputRefForward }) {
             }
             minDate={subDays(new Date(), 2)}
             placeholderText="Set due date..."
-            // customInput={
-            //   formData.date == undefined ? (
-            //     <p>Set due date...</p>
-            //   ) : (
-            //     <p>{parseTaskDate(formData.date)}</p>
-            //   )
-            // }
           />
         </div>
       </div>
