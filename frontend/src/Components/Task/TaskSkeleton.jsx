@@ -72,14 +72,21 @@ function TaskSkeleton({ addTask, cancelTask, inputRefForward }) {
 
         <div className="flex-row-at-start">
           <DatePicker
-            className="date-picker"
-            showicon
+            className="date-picker-new-task"
+            // showicon
             selected={formData.date}
             onChange={(date) =>
               setFormData((formData) => ({ ...formData, date: date }))
             }
             minDate={subDays(new Date(), 2)}
             placeholderText="Set due date..."
+            // customInput={
+            //   formData.date == undefined ? (
+            //     <p>Set due date...</p>
+            //   ) : (
+            //     <p>{parseTaskDate(formData.date)}</p>
+            //   )
+            // }
           />
         </div>
       </div>
@@ -95,7 +102,7 @@ function TaskSkeleton({ addTask, cancelTask, inputRefForward }) {
           </div>
           <div>
             <button className="button" type="submit">
-              + Add Task
+              Done
             </button>
           </div>
         </div>

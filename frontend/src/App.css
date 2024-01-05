@@ -79,6 +79,7 @@ body {
   padding-bottom: 0;
   position: sticky;
   top: 0;
+  z-index: 1000;
 }
 
 .navbar h1 {
@@ -195,8 +196,18 @@ a {
 }
 
 .remove-task-checkbox:hover {
-  cursor: pointer;
-  opacity: 0.8;
+  /* cursor: pointer;
+  opacity: 0.8; */
+}
+
+/* CSS for non-mobile devices or when hovered */
+@media (hover: hover) {
+  .remove-task-checkbox:hover {
+    /* Styles for when the button is hovered (desktop) */
+    /* Show the checkbox */
+    cursor: pointer;
+    opacity: 0.8;
+  }
 }
 
 .task-time-wrapper {
@@ -326,6 +337,11 @@ a:hover {
 
 .add-task-button {
   max-width: 50%;
+}
+
+.date-picker-new-task {
+  font-size: 16px;
+  margin-top: 5px;
 }
 
 .logout-button {
