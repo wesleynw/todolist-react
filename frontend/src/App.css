@@ -82,13 +82,13 @@ body {
   z-index: 1000;
 }
 
-.navbar h1 {
+.navbar-text {
   font-weight: 900;
   margin: 12px;
   cursor: pointer;
 }
 
-.navbar h1:hover {
+.navbar-text:hover {
   color: rgb(227, 227, 227);
 }
 
@@ -161,6 +161,7 @@ a {
 .task-list {
   text-align: center;
   width: 100%;
+  margin-top: 40px;
 }
 
 .task {
@@ -173,7 +174,7 @@ a {
 
 .remove-task-button {
   border: 0;
-  border: 1px #252525 inset;
+  border: 1px #252525 solid;
   padding: 0;
   margin: 0;
   width: 20px;
@@ -185,9 +186,9 @@ a {
   transition: background-color 0.1s;
 }
 
-.remove-task-button:disabled {
+.disabled {
   opacity: 0.4;
-  cursor: inherit;
+  cursor: default;
 }
 
 .remove-task-checkbox {

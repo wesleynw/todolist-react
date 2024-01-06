@@ -5,7 +5,7 @@ function Task({ removeTask, changeTaskDate, task }) {
   return (
     <li className="task flex-col-at-start">
       <div className="flex-row-at-start">
-        <button
+        <div
           className="remove-task-button flexbox-row"
           onClick={() => {
             setTimeout(() => {
@@ -26,7 +26,7 @@ function Task({ removeTask, changeTaskDate, task }) {
               fillRule="evenodd"
             />
           </svg>
-        </button>
+        </div>
         <span className="task-name">{task.name}</span>
       </div>
 

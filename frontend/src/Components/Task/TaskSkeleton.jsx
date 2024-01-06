@@ -55,7 +55,7 @@ function TaskSkeleton({ addTask, cancelTask, inputRefForward }) {
     <form className="task new-task" onSubmit={handleSubmit} autoComplete="off">
       <div className="">
         <div className="flex-row-at-start">
-          <button className="remove-task-button" disabled={true}></button>
+          <div className="remove-task-button disabled"></div>
           <input
             name="name"
             placeholder="Task name"

@@ -56,7 +56,7 @@ const TaskSchema = new mongoose.Schema({
 });
 
 const UserSchema = new mongoose.Schema({
-  name: String,
+  username: String,
   email: String,
   password: String,
   todolist: [TaskSchema],
@@ -122,10 +122,12 @@ app.post(
       return res.status(422).json({ errors: result.array() });
     }
 
+    console.log(data.name);
+
     try {
       bcrypt.hash(data.password, 10, async function (err, hash) {
         let newUser = new User({
-          username: data.username,
+          username: data.name,
           email: data.email,
           password: hash,
           todolist: Array(0),
@@ -139,7 +141,7 @@ app.post(
         }
 
         console.log(`created user ${data.email}`);
-        const token = generateAccessToken(data.email);
+        // const token = generateAccessToken(data.email);
         return res
           .status(201)
           .cookie("token", "Bearer " + generateAccessToken(data.email), {
@@ -275,6 +277,12 @@ app.post(
     return res.sendStatus(200);
   }
 );
+
+app.get("/api/username", authenticateToken, async function (req, res) {
+  const user = await User.findOne({ email: req.user.email }).exec();
+  console.log(user);
+  return res.status(200).json({ username: user.username });
+});
 
 app.listen(port, function () {
   console.log(`Example app listening on port ${port}!`);
