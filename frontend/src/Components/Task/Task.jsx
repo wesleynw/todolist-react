@@ -30,7 +30,6 @@ function Task({ removeTask, changeTaskDate, task }) {
         <span className="task-name">{task.name}</span>
       </div>
 
-      {/* <div className="flex-col-at-start"> */}
       <TaskDueDate
         dateStr={task.date}
         changeTaskDate={(
@@ -38,7 +37,6 @@ function Task({ removeTask, changeTaskDate, task }) {
             changeTaskDate(key, dateStr)
         )(task.key)}
       />
-      {/* </div> */}
     </li>
   );
 }

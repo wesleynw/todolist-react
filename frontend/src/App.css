@@ -141,11 +141,10 @@ a {
 
 .button:disabled {
   cursor: not-allowed;
-  /* color: grey; */
   background-color: grey;
 }
 
-.button:disabl .width-100 {
+.width-100 {
   width: 100%;
 }
 
@@ -166,9 +165,6 @@ a {
 
 .task {
   border: 1px solid #ddd;
-  /* display: flex;
-  flex-direction: column;
-  justify-content: space-between; */
   padding: 15px;
   margin: 10px;
   border-radius: 10px;
@@ -201,11 +197,22 @@ a {
   transition: opacity 0.05s;
 }
 
-/* CSS for non-mobile devices or when hovered */
+.add-due-date-button {
+  width: 20px;
+  height: 20px;
+}
+
+.add-due-date-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.add-due-date-svg:hover {
+  cursor: pointer;
+}
+
 @media (hover: hover) {
   .remove-task-checkbox:hover {
-    /* Styles for when the button is hovered (desktop) */
-    /* Show the checkbox */
     cursor: pointer;
     opacity: 0.8;
   }
@@ -219,6 +226,11 @@ a {
   cursor: pointer;
   padding-left: 3px;
   padding-right: 3px;
+}
+
+.task-time-add-wrapper {
+  margin-left: 25px;
+  margin-top: 5px;
 }
 
 .task-time {
