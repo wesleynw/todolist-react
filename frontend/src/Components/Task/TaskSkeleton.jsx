@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import { useState, useEffect, useRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import subDays from "date-fns/subDays";
 
 function TaskSkeleton({ addTask, cancelTask, inputRefForward }) {
   const skeleton = {
@@ -73,12 +72,11 @@ function TaskSkeleton({ addTask, cancelTask, inputRefForward }) {
         <div className="flex-row-at-start">
           <DatePicker
             className="date-picker-new-task"
-            // showicon
             selected={formData.date}
             onChange={(date) =>
               setFormData((formData) => ({ ...formData, date: date }))
             }
-            minDate={subDays(new Date(), 2)}
+            minDate={new Date()}
             placeholderText="Set due date..."
           />
         </div>
@@ -94,7 +92,11 @@ function TaskSkeleton({ addTask, cancelTask, inputRefForward }) {
             </button>
           </div>
           <div>
-            <button className="button" type="submit">
+            <button
+              className="button"
+              type="submit"
+              disabled={formData.name == ""}
+            >
               Done
             </button>
           </div>

@@ -15,13 +15,26 @@ function parseTaskDate(date) {
     "Saturday",
   ];
 
-  // const date = new Date(dateStr);
-
   const now = new Date();
-  if (date - now < 7 * 24 * 3600 * 1000) {
-    return weekday[date.getDay()];
+
+  if (now > date && now.getDate() > date.getDate()) {
+    return [
+      String(date.getUTCMonth() + 1) + "/" + String(date.getUTCDate()),
+      "#ee9090",
+    ];
   }
-  return String(date.getUTCMonth() + 1) + "/" + String(date.getUTCDate());
+  if (date - now < 7 * 24 * 3600 * 1000) {
+    if (date.getDay() == now.getDay()) {
+      return ["Today", "#90ee90"];
+    } else if (date.getDate() == now.getDate() + 1) {
+      return ["Tomorrow", "#9090ee"];
+    }
+    return [weekday[date.getDay()], "#bf90ee"];
+  }
+  return [
+    String(date.getUTCMonth() + 1) + "/" + String(date.getUTCDate()),
+    "transparent",
+  ];
 }
 
 // function parseTaskPriority() {}
@@ -39,7 +52,10 @@ function TaskDueDate({ dateStr, changeTaskDate }) {
     return <></>;
   } else {
     return (
-      <div className="task-time-wrapper">
+      <div
+        className="task-time-wrapper"
+        style={{ backgroundColor: parseTaskDate(date)[1] }}
+      >
         <DatePicker
           className="date-picker"
           showicon
@@ -47,7 +63,7 @@ function TaskDueDate({ dateStr, changeTaskDate }) {
           onChange={(date) => handleTaskDateChange(date)}
           minDate={subDays(new Date(), 2)}
           placeholderText="Set due date..."
-          customInput={<p className="task-time">{parseTaskDate(date)}</p>}
+          customInput={<p className="task-time">{parseTaskDate(date)[0]}</p>}
         />
       </div>
     );

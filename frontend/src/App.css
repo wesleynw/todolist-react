@@ -135,12 +135,18 @@ a {
   font-family: "Lexend";
 }
 
-.width-100 {
-  width: 100%;
+.button:hover:enabled {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-.button:hover {
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+.button:disabled {
+  cursor: not-allowed;
+  /* color: grey; */
+  background-color: grey;
+}
+
+.button:disabl .width-100 {
+  width: 100%;
 }
 
 .add-task-button-cancel {
@@ -211,11 +217,13 @@ a {
   margin-left: 25px;
   margin-top: 5px;
   cursor: pointer;
+  padding-left: 3px;
+  padding-right: 3px;
 }
 
 .task-time {
   font-weight: 300;
-  font-size: small;
+  font-size: 14px;
   margin: 0;
   padding: 4px;
 }
