@@ -49,7 +49,6 @@ function TaskDueDate({ dateStr, changeTaskDate }) {
       <div className="task-time-add-wrapper">
         <DatePicker
           className="date-picker"
-          // selected={date}
           onChange={(date) => handleTaskDateChange(date)}
           minDate={new Date()}
           placeholderText="Set due date..."
@@ -79,8 +78,15 @@ function TaskDueDate({ dateStr, changeTaskDate }) {
   } else {
     return (
       <div
-        className="task-time-wrapper"
-        style={{ backgroundColor: parseTaskDate(date)[1] }}
+        className={
+          "task-time-wrapper " +
+          (parseTaskDate(date)[1] == "transparent"
+            ? "task-time-black-border"
+            : "")
+        }
+        style={{
+          backgroundColor: parseTaskDate(date)[1],
+        }}
       >
         <DatePicker
           className="date-picker"

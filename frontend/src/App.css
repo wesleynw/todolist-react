@@ -220,7 +220,7 @@ a {
 }
 
 .task-time-wrapper {
-  outline: 1px solid grey;
+  /* outline: 1px solid grey; */
   border-radius: 5px;
   margin-left: 25px;
   margin-top: 5px;
@@ -229,14 +229,18 @@ a {
   padding-right: 3px;
 }
 
+.task-time-black-border {
+  border: 1px solid grey;
+}
+
 .task-time-add-wrapper {
   margin-left: 25px;
   margin-top: 5px;
 }
 
 .task-time {
-  font-weight: 300;
-  font-size: 14px;
+  font-weight: 400;
+  font-size: 15px;
   margin: 0;
   padding: 4px;
 }
@@ -338,8 +342,8 @@ a {
 
 .footer {
   text-align: center;
-  padding-top: 60px;
-  padding-bottom: 30px;
+  padding-top: 100px;
+  padding-bottom: 10px;
 }
 
 a:hover {
