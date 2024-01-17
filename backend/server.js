@@ -1,5 +1,4 @@
 const express = require("express");
-// var cors = require("cors");
 const cookieParser = require("cookie-parser");
 const app = express();
 const port = 3000;
@@ -9,15 +8,9 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const {
-  header,
-  body,
-  validationResult,
-  matchedData,
-} = require("express-validator");
+const { body, validationResult, matchedData } = require("express-validator");
 
 app.use(express.json());
-// app.use(cors());
 app.use(cookieParser());
 
 const mongoose = require("mongoose");
@@ -121,8 +114,6 @@ app.post(
     if (!result.isEmpty()) {
       return res.status(422).json({ errors: result.array() });
     }
-
-    console.log(data.name);
 
     try {
       bcrypt.hash(data.password, 10, async function (err, hash) {
@@ -261,6 +252,28 @@ app.post(
 );
 
 app.post(
+  "/api/change-todo-name",
+  authenticateToken,
+  body("key").notEmpty().isUUID(),
+  body("name").escape(),
+  async function (req, res) {
+    const result = validationResult(req);
+    const data = matchedData(req);
+    if (!result.isEmpty()) {
+      return res.status(422).send({ errors: result.array() });
+    }
+
+    await User.findOneAndUpdate(
+      { email: { $eq: req.user.email }, "todolist.key": { $eq: data.key } },
+      { $set: { "todolist.$.name": data.name } },
+      { new: true }
+    ).exec();
+
+    return res.sendStatus(200);
+  }
+);
+
+app.post(
   "/api/delete-todo",
   authenticateToken,
   body("key").notEmpty(),
@@ -280,7 +293,6 @@ app.post(
 
 app.get("/api/username", authenticateToken, async function (req, res) {
   const user = await User.findOne({ email: req.user.email }).exec();
-  console.log(user);
   return res.status(200).json({ username: user.username });
 });
 
