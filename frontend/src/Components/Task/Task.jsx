@@ -29,7 +29,7 @@ function Task({ removeTask, changeTaskDate, changeTaskName, task }) {
         </div>
         <input
           className="new-task-title"
-          value={task.name}
+          defaultValue={task.name}
           onChange={(e) => {
             changeTaskName(task.key, e.target.value);
           }}
