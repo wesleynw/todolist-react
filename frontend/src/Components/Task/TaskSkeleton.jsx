@@ -78,6 +78,7 @@ function TaskSkeleton({ addTask, cancelTask, inputRefForward }) {
             }
             minDate={new Date()}
             placeholderText="Set due date..."
+            onKeyDown={handleKeyPress}
           />
         </div>
       </div>

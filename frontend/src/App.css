@@ -283,6 +283,9 @@ a {
   height: 20px;
   flex-grow: 1;
   font-size: 16px;
+  border: 0;
+  font-family: inherit;
+  width: 100%;
 }
 
 .new-task input {
@@ -316,7 +319,8 @@ a {
   align-items: center;
 }
 
-.new-task input:focus {
+.new-task input:focus,
+.new-task-title {
   outline: none;
 }
 

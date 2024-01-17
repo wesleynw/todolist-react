@@ -4,7 +4,7 @@ function Navbar({ name }) {
   return (
     <div className="navbar">
       <h1 className="navbar-text">
-        {name == undefined ? "Your" : name + "'s"} Todo List
+        {name == undefined ? "Your" : name + "'s"} To Do List
       </h1>
     </div>
   );

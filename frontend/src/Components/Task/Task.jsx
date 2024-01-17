@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import TaskDueDate from "./TaskDueDate";
 
-function Task({ removeTask, changeTaskDate, task }) {
+function Task({ removeTask, changeTaskDate, changeTaskName, task }) {
   return (
     <li className="task flex-col-at-start">
-      <div className="flex-row-at-start">
+      <div className="flex-row-at-start width-100">
         <div
           className="remove-task-button flexbox-row"
           onClick={() => {
@@ -27,7 +27,13 @@ function Task({ removeTask, changeTaskDate, task }) {
             />
           </svg>
         </div>
-        <span className="task-name">{task.name}</span>
+        <input
+          className="new-task-title"
+          value={task.name}
+          onChange={(e) => {
+            changeTaskName(task.key, e.target.value);
+          }}
+        />
       </div>
 
       <TaskDueDate
@@ -46,6 +52,7 @@ export default Task;
 Task.propTypes = {
   removeTask: PropTypes.func,
   changeTaskDate: PropTypes.func,
+  changeTaskName: PropTypes.func,
   task: PropTypes.shape({
     key: PropTypes.string,
     name: PropTypes.string,

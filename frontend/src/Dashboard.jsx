@@ -93,6 +93,27 @@ const Dashboard = () => {
     }
   };
 
+  const changeTaskName = async (key, name) => {
+    try {
+      await axios.post(
+        "/change-todo-name",
+        { key: key, name: name },
+        { withCredentials: true }
+      );
+
+      const updatedTasks = tasks.map((item) => {
+        if (item.key === key) {
+          return { ...item, name: name };
+        }
+        return item;
+      });
+
+      setTasks(updatedTasks);
+    } catch (error) {
+      console.log("Error changing task name");
+    }
+  };
+
   const logout = () => {
     Cookies.remove("token");
     navigate("/login");
@@ -115,6 +136,7 @@ const Dashboard = () => {
                   key={task.key}
                   removeTask={removeTask}
                   changeTaskDate={changeTaskDate}
+                  changeTaskName={changeTaskName}
                   task={task}
                 />
               ))}
