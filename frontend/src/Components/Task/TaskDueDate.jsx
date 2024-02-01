@@ -15,14 +15,27 @@ function parseTaskDate(date) {
   ];
 
   const now = new Date();
+  console.log(date);
+  console.log(now);
 
-  if (now > date && now.getDate() > date.getDate()) {
+
+  console.log(date.getDate())
+  console.log(now.getDate())
+
+  console.log("start")
+  console.log(date.getFullYear() <= now.getFullYear())
+  console.log(1)
+  console.log(date.getMonth() <= now.getMonth())
+  console.log(1)
+  console.log(date.getDate() < now.getDate())
+
+  if (date.getFullYear() < now.getFullYear() || date.getMonth() < now.getMonth() || date.getDate() < now.getDate()) {
     return [
       String(date.getUTCMonth() + 1) + "/" + String(date.getUTCDate()),
       "#ee9090",
     ];
   }
-  if (date - now < 7 * 24 * 3600 * 1000) {
+  if (Math.abs(date - now) < 7 * 24 * 3600 * 1000) {
     if (date.getDay() == now.getDay()) {
       return ["Today", "#90ee90"];
     } else if (date.getDate() == now.getDate() + 1) {
