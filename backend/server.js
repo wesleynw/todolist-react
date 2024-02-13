@@ -208,6 +208,7 @@ app.post(
   body("key").notEmpty().isUUID(),
   body("name").notEmpty().escape().isString(),
   body("date").isISO8601().optional(),
+  body("priority").optional(),
   async function (req, res) {
     const result = validationResult(req);
     const data = matchedData(req);
