@@ -43,6 +43,8 @@ function Task({ removeTask, changeTaskDate, changeTaskName, task }) {
             changeTaskDate(key, dateStr)
         )(task.key)}
       />
+
+      {(task.priority == null || task.priority == "") ? <></> : <p className="priority-label">{task.priority} Priority</p>}
     </li>
   );
 }

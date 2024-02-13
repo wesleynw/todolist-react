@@ -295,6 +295,14 @@ a {
   /* padding-left: 5px; */
 }
 
+.priority-label {
+  font-size: 13px;
+  /* padding: none; */
+  margin: 0;
+  margin-top: 5px;
+  cursor: default;
+}
+
 .flex-row-at-start {
   display: flex;
   flex-direction: row;
@@ -367,6 +375,15 @@ a:hover {
 .date-picker-new-task {
   font-size: 16px;
   margin-top: 5px;
+}
+
+.select-menu {
+  margin-top: 5px;
+  font-family: 'Lexend';
+  color: grey;
+  font-size: 15px;
+  border: 1px;
+  border-radius: 5px;
 }
 
 .logout-button {

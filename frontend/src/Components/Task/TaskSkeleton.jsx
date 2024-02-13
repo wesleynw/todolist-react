@@ -69,7 +69,8 @@ function TaskSkeleton({ addTask, cancelTask, inputRefForward }) {
           />
         </div>
 
-        <div className="flex-row-at-start">
+
+        <div className="flex-col-at-start">
           <DatePicker
             className="date-picker-new-task"
             selected={formData.date}
@@ -80,6 +81,17 @@ function TaskSkeleton({ addTask, cancelTask, inputRefForward }) {
             placeholderText="Set due date..."
             onKeyDown={handleKeyPress}
           />
+          <select value={formData.priority} defaultValue="placeholder" className="select-menu" onChange={(e) => {setFormData((formData) => ({ ...formData, priority: e.target.value }))}}>
+            <option value="placeholder" disabled>Priority</option>
+            <option value="">None</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+
+        </div>
+        <div>
+
         </div>
       </div>
       <div className="flex-col-at-end">
