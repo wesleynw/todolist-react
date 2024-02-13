@@ -29,14 +29,14 @@ function parseTaskDate(date) {
   console.log(1)
   console.log(date.getDate() < now.getDate())
 
-  if (date.getFullYear() < now.getFullYear() || date.getMonth() < now.getMonth() || date.getDate() < now.getDate()) {
+  if (date.getFullYear() < now.getFullYear() || date.getMonth() < now.getMonth() || (date.getMonth() < now.getMonth() && date.getDate() < now.getDate())) {
     return [
       String(date.getUTCMonth() + 1) + "/" + String(date.getUTCDate()),
       "#ee9090",
     ];
   }
   if (Math.abs(date - now) < 7 * 24 * 3600 * 1000) {
-    if (date.getDay() == now.getDay()) {
+    if (date.getDate() == now.getDate()) {
       return ["Today", "#90ee90"];
     } else if (date.getDate() == now.getDate() + 1) {
       return ["Tomorrow", "#9090ee"];
