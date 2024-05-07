@@ -1,5 +1,7 @@
 # Todo list app with React & MongoDB
 
+Note: This project was originally for the Full Stack Development class @ UC Berkeley. The project was rebuilt in it's entirety by Wesley.
+
 Allison Lin, Ishan Monie, Louisa Ng, & Wesley Weisenberger:
 
 > the **splajaumpy flooter sluper wuggy greebles**.
@@ -176,5 +178,3 @@ User commands:
 [GitHub: react auth slice example](https://github.com/iammanishshrma/react-protected-routes/blob/master/src/store/slices/auth/authSlice.js)
 
 [StackOverflow: react authentication](https://stackoverflow.com/questions/72371670/how-do-i-setup-a-backend-such-as-node-js-express-with-reactusing-vite-also-how)
-
-[]
