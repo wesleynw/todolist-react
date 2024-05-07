@@ -81,7 +81,7 @@ function TaskSkeleton({ addTask, cancelTask, inputRefForward }) {
             placeholderText="Set due date..."
             onKeyDown={handleKeyPress}
           />
-          <select value={formData.priority} defaultValue="placeholder" className="select-menu" onChange={(e) => {setFormData((formData) => ({ ...formData, priority: e.target.value }))}}>
+          <select value={formData.priority} className="select-menu" onChange={(e) => {setFormData((formData) => ({ ...formData, priority: e.target.value }))}}>
             <option value="placeholder" disabled>Priority</option>
             <option value="">None</option>
             <option value="High">High</option>

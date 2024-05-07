@@ -6,11 +6,14 @@ import { v4 as uuidv4 } from "uuid";
 import Task from "./Components/Task/Task.jsx";
 import TaskSkeleton from "./Components/Task/TaskSkeleton.jsx";
 import Navbar from "./Navbar.jsx";
+import * as sort_comparators from "./sort_comparators.js";
 
 const Dashboard = () => {
   document.title = "Todo List";
   const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
+  const [taskPriorityFilter, setTaskPriorityFilter] = useState("None");
+  const [taskSortMethod, setTaskSortMethod] = useState(() => sort_comparators.normal_comp)
   const [username, setUsername] = useState("");
   const [isNewTask, setIsNewTask] = useState(false);
   const inputRef = useRef(null);
@@ -123,15 +126,38 @@ const Dashboard = () => {
     <>
       <Navbar name={username} />
       <div className={"main-body"}>
-        {/* <h1 className="title">Today&apos;s To-Do List</h1> */}
-        {/* <LineAcrossPage /> */}
-
         <div className="task-list">
-          {tasks.length == 0 ? (
+          <div className="flexbox-row">
+            <h4>filter:&nbsp;&nbsp;&nbsp;</h4>
+            <select>
+              <option onClick={() => setTaskPriorityFilter("None")}>None</option>
+              <option onClick={() => setTaskPriorityFilter("Low")}>Low</option>
+              <option onClick={() => setTaskPriorityFilter("Medium")}>Medium</option>
+              <option onClick={() => setTaskPriorityFilter("High")}>High</option>
+            </select>
+            
+            <h4>&nbsp;&nbsp;&nbsp;sort:&nbsp;&nbsp;&nbsp;</h4>
+            <select>
+              <option onClick={() => setTaskSortMethod(() => sort_comparators.normal_comp)}>Date added</option>
+              <option onClick={() => setTaskSortMethod(() => sort_comparators.name_comp)}>Name</option>
+              <option onClick={() => setTaskSortMethod(() => sort_comparators.date_comp)}>Due date</option>
+              <option onClick={() => setTaskSortMethod(() => sort_comparators.prio_comp)}>Priority</option>
+            </select>
+
+            
+            {/* <button disabled={taskPriorityFilter == "None"} className="button" onClick={() => setTaskPriorityFilter("None")}>None</button>
+            <button disabled={taskPriorityFilter == "Low"} className="button" onClick={() => setTaskPriorityFilter("Low")}>Low</button>
+            <button disabled={taskPriorityFilter == "Medium"} className="button" onClick={() => setTaskPriorityFilter("Medium")}>Medium</button>
+            <button disabled={taskPriorityFilter == "High"} className="button" onClick={() => setTaskPriorityFilter("High")}>High</button> */}
+          </div>
+
+          {tasks.filter(task => taskPriorityFilter == "None" || task.priority == taskPriorityFilter).length == 0 ? (
             <h2>Nothing to do today!</h2>
           ) : (
             <>
-              {tasks.map((task) => (
+              {[...tasks]
+                .sort(taskSortMethod)
+                .filter(task => taskPriorityFilter == "None" || task.priority == taskPriorityFilter).map((task) => (
                 <Task
                   key={task.key}
                   removeTask={removeTask}
@@ -139,10 +165,10 @@ const Dashboard = () => {
                   changeTaskName={changeTaskName}
                   task={task}
                 />
+
               ))}
             </>
           )}
-
           {isNewTask == true ? (
             <div className="task-list add-task-section">
               <TaskSkeleton
