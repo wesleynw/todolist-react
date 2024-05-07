@@ -378,7 +378,7 @@ a:hover {
 }
 
 .select-menu {
-  margin-top: 5px;
+  /* margin-top: 5px; */
   font-family: 'Lexend';
   color: grey;
   font-size: 15px;

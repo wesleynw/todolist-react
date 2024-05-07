@@ -34,7 +34,6 @@ function TaskSkeleton({ addTask, cancelTask, inputRefForward }) {
   };
 
   const handleKeyPress = (event) => {
-    console.log(event);
     if (event.keyCode === 13) {
       handleSubmit(event);
     }

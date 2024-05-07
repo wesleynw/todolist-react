@@ -32,8 +32,9 @@ const Dashboard = () => {
         });
         setUsername(response.data.username);
       } catch (error) {
-        navigate("/login");
-        console.error("Error fetching data:", error);
+        logout();
+        // navigate("/login");
+        // console.error("Error fetching data:", error);
       }
     };
     fetchData();
@@ -129,26 +130,21 @@ const Dashboard = () => {
         <div className="task-list">
           <div className="flexbox-row">
             <h4>filter:&nbsp;&nbsp;&nbsp;</h4>
-            <select>
+            <select className="select-menu">
               <option onClick={() => setTaskPriorityFilter("None")}>None</option>
               <option onClick={() => setTaskPriorityFilter("Low")}>Low</option>
               <option onClick={() => setTaskPriorityFilter("Medium")}>Medium</option>
               <option onClick={() => setTaskPriorityFilter("High")}>High</option>
             </select>
-            
+
             <h4>&nbsp;&nbsp;&nbsp;sort:&nbsp;&nbsp;&nbsp;</h4>
-            <select>
+            <select className="select-menu">
               <option onClick={() => setTaskSortMethod(() => sort_comparators.normal_comp)}>Date added</option>
               <option onClick={() => setTaskSortMethod(() => sort_comparators.name_comp)}>Name</option>
               <option onClick={() => setTaskSortMethod(() => sort_comparators.date_comp)}>Due date</option>
               <option onClick={() => setTaskSortMethod(() => sort_comparators.prio_comp)}>Priority</option>
             </select>
 
-            
-            {/* <button disabled={taskPriorityFilter == "None"} className="button" onClick={() => setTaskPriorityFilter("None")}>None</button>
-            <button disabled={taskPriorityFilter == "Low"} className="button" onClick={() => setTaskPriorityFilter("Low")}>Low</button>
-            <button disabled={taskPriorityFilter == "Medium"} className="button" onClick={() => setTaskPriorityFilter("Medium")}>Medium</button>
-            <button disabled={taskPriorityFilter == "High"} className="button" onClick={() => setTaskPriorityFilter("High")}>High</button> */}
           </div>
 
           {tasks.filter(task => taskPriorityFilter == "None" || task.priority == taskPriorityFilter).length == 0 ? (
@@ -158,15 +154,15 @@ const Dashboard = () => {
               {[...tasks]
                 .sort(taskSortMethod)
                 .filter(task => taskPriorityFilter == "None" || task.priority == taskPriorityFilter).map((task) => (
-                <Task
-                  key={task.key}
-                  removeTask={removeTask}
-                  changeTaskDate={changeTaskDate}
-                  changeTaskName={changeTaskName}
-                  task={task}
-                />
+                  <Task
+                    key={task.key}
+                    removeTask={removeTask}
+                    changeTaskDate={changeTaskDate}
+                    changeTaskName={changeTaskName}
+                    task={task}
+                  />
 
-              ))}
+                ))}
             </>
           )}
           {isNewTask == true ? (

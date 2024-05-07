@@ -4,6 +4,7 @@ export const name_comp = (a, b) => {
   if (!a || !b) {
     return 0;
   }
+  // return a.name < b.name
     if (a.name < b.name) {
         return -1;
       } else if (a.name > b.name) {
@@ -23,7 +24,6 @@ export const date_comp = (a, b) => {
 }
 
 export const prio_comp = (a, b) => {
-  console.log(a.priority);
   if (a.priority == "") {
     return 1;
   } else if (b.priority == "") {
