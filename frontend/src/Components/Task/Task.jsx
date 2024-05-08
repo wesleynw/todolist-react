@@ -28,6 +28,7 @@ function Task({ removeTask, changeTaskDate, changeTaskName, task }) {
           </svg>
         </div>
         <input
+          name="new-task-title"
           className="new-task-title"
           defaultValue={task.name}
           onChange={(e) => {

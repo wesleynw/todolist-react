@@ -19,26 +19,35 @@ export const date_comp = (a, b) => {
   } else if (!b.date) {
     return -1
   } else {
-    return a.date > b.date
+    if (a.date > b.date) {
+      return 1;
+    } else {
+      return -1;
+    }
   }
 }
 
 export const prio_comp = (a, b) => {
-  if (a.priority == "") {
+  if (!a || !a.priority || a.priority == "") {
     return 1;
-  } else if (b.priority == "") {
+  } else if (!b | b.priority == "") {
     return -1;
   }
-  return prioMap(a) > prioMap(b);
+
+  if (prioMap(a) > prioMap(b)) {
+    return -1;
+  } else {
+    return 1;
+  }
 }
 
 function prioMap(prioStr) {
   switch (prioStr.priority.toLowerCase()) {
-    case "high priority":
+    case "high":
       return 3;
-    case "medium priority":
+    case "medium":
       return 2;
-    case "low priority":
+    case "low":
       return 1;
     default:
       return 0;

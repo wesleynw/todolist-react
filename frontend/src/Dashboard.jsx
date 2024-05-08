@@ -12,6 +12,7 @@ const Dashboard = () => {
   document.title = "Todo List";
   const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
+  const [tasksDisplay, setTasksDisplay] = useState([]);
   const [taskPriorityFilter, setTaskPriorityFilter] = useState("None");
   const [taskSortMethod, setTaskSortMethod] = useState(() => sort_comparators.normal_comp)
   const [username, setUsername] = useState("");
@@ -27,6 +28,7 @@ const Dashboard = () => {
           withCredentials: true,
         });
         setTasks(response.data);
+        setTasksDisplay(response.data);
         response = await axios.get("/username", {
           withCredentials: true,
         });
@@ -65,6 +67,7 @@ const Dashboard = () => {
     }
 
     setTasks([...tasks, taskData]);
+    setTasksDisplay([...tasks, taskData]);
   };
 
   const removeTask = async (key) => {
@@ -123,6 +126,23 @@ const Dashboard = () => {
     navigate("/login");
   };
 
+  const handleSetFilter = (e) => {
+    let filter = e.target.value;
+    setTaskPriorityFilter(filter);
+    setTasksDisplay(tasks.filter(task => filter == "None" || task.priority == filter));
+  }
+
+  const handleSetSort = (e) => {
+    let comparators = [sort_comparators.normal_comp, sort_comparators.name_comp, sort_comparators.date_comp, sort_comparators.prio_comp]; // there's certainly a much more efficient way of doing this
+    let orderComparator = comparators[e.target.value];
+    setTaskSortMethod(orderComparator);
+    if (e.target.value == 0) {
+      setTasksDisplay(tasks.filter(task => taskPriorityFilter == "None" || task.priority == taskPriorityFilter));
+    } else {
+      setTasksDisplay([...tasksDisplay].sort(orderComparator));
+    }
+  }
+
   return (
     <>
       <Navbar name={username} />
@@ -130,19 +150,19 @@ const Dashboard = () => {
         <div className="task-list">
           <div className="flexbox-row">
             <h4>filter:&nbsp;&nbsp;&nbsp;</h4>
-            <select className="select-menu">
-              <option onClick={() => setTaskPriorityFilter("None")}>None</option>
-              <option onClick={() => setTaskPriorityFilter("Low")}>Low</option>
-              <option onClick={() => setTaskPriorityFilter("Medium")}>Medium</option>
-              <option onClick={() => setTaskPriorityFilter("High")}>High</option>
+            <select className="select-menu" onChange={handleSetFilter}>
+              <option>None</option>
+              <option>Low</option>
+              <option>Medium</option>
+              <option>High</option>
             </select>
 
             <h4>&nbsp;&nbsp;&nbsp;sort:&nbsp;&nbsp;&nbsp;</h4>
-            <select className="select-menu">
-              <option onClick={() => setTaskSortMethod(() => sort_comparators.normal_comp)}>Date added</option>
-              <option onClick={() => setTaskSortMethod(() => sort_comparators.name_comp)}>Name</option>
-              <option onClick={() => setTaskSortMethod(() => sort_comparators.date_comp)}>Due date</option>
-              <option onClick={() => setTaskSortMethod(() => sort_comparators.prio_comp)}>Priority</option>
+            <select className="select-menu" onChange={handleSetSort}>
+              <option value="0">Date added</option>
+              <option value="1">Name</option>
+              <option value="2">Due date</option>
+              <option value="3">Priority</option>
             </select>
 
           </div>
@@ -151,9 +171,8 @@ const Dashboard = () => {
             <h2>Nothing to do today!</h2>
           ) : (
             <>
-              {[...tasks]
-                .sort(taskSortMethod)
-                .filter(task => taskPriorityFilter == "None" || task.priority == taskPriorityFilter).map((task) => (
+              {tasksDisplay
+                .map((task) => (
                   <Task
                     key={task.key}
                     removeTask={removeTask}
@@ -161,8 +180,13 @@ const Dashboard = () => {
                     changeTaskName={changeTaskName}
                     task={task}
                   />
+                ))
+                // .sort(taskSortMethod)
+                // .filter(task => taskPriorityFilter == "None" || task.priority == taskPriorityFilter).map((task) => (
+                  
 
-                ))}
+                // ))
+              }
             </>
           )}
           {isNewTask == true ? (
