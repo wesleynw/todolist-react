@@ -3,7 +3,7 @@ name: Deploy Vite App to DigitalOcean
 on:
   push:
     branches:
-      - main # Deploy on push to main branch
+      - main
 
 jobs:
   build-and-deploy:
@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16" # Specify Node.js version compatible with Vite
+          node-version: "16"
 
       - name: Install Dependencies
         run: npm install
@@ -31,11 +31,8 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
 
-      - name: Copy Built Files to Droplet
+      - name: Copy Build Files to Droplet
         run: |
           ssh-keyscan -H 137.184.119.191 >> ~/.ssh/known_hosts
-          scp -r dist/* wesley@137.184.119.191:/home/wesley/deployment
+          scp -r dist/* wesley@137.184.119.191:/var/www/wesleyweisenberger.xyz/html
         working-directory: ./frontend
-
-      - name: Restart application on Droplet
-        run: ssh wesley@137.184.119.191 "cd /home/wesley/ && ./deploy.sh"
