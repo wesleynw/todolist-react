@@ -34,7 +34,7 @@ jobs:
       - name: Copy Built Files to Droplet
         run: |
           ssh-keyscan -H 137.184.119.191 >> ~/.ssh/known_hosts
-          scp -r dist/* wesley@137.184.119.191:/deployment
+          scp -r dist/* wesley@137.184.119.191:/home/wesley/deployment
         working-directory: ./frontend
 
       - name: Restart application on Droplet
