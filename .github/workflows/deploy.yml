@@ -35,6 +35,7 @@ jobs:
         run: |
           ssh-keyscan -H 137.184.119.191 >> ~/.ssh/known_hosts
           scp -r dist/* wesley@137.184.119.191:/deployment
+        working-directory: ./frontend
 
       - name: Restart application on Droplet
         run: ssh wesley@y137.184.119.191 "cd /deployment && ./deploy.sh"
