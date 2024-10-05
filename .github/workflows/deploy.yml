@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main # Deploy on push to main branch
+    paths:
+      - "frontend/**" # Only run this workflow for changes in the 'frontend/' directory
 
 jobs:
   build-and-deploy:
