@@ -1,0 +1,38 @@
+name: Deploy Vite App to DigitalOcean
+
+on:
+  push:
+    branches:
+      - main # Deploy on push to main branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16" # Specify Node.js version compatible with Vite
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Vite App
+        run: npm run build
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
+
+      - name: Copy Built Files to Droplet
+        run: |
+          ssh-keyscan -H 137.184.119.191 >> ~/.ssh/known_hosts
+          scp -r dist/* wesley@137.184.119.191:/deployment
+
+      - name: Restart application on Droplet
+        run: ssh wesley@y137.184.119.191 "cd /deployment && ./deploy.sh"
