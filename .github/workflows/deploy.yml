@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main # Deploy on push to main branch
-    paths:
-      - "frontend/**" # Only run this workflow for changes in the 'frontend/' directory
 
 jobs:
   build-and-deploy:
@@ -22,9 +20,11 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
+        working-directory: ./frontend
 
       - name: Build Vite App
         run: npm run build
+        working-directory: ./frontend
 
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.7.0
