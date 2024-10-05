@@ -38,4 +38,4 @@ jobs:
         working-directory: ./frontend
 
       - name: Restart application on Droplet
-        run: ssh wesley@y137.184.119.191 "cd /deployment && ./deploy.sh"
+        run: ssh wesley@137.184.119.191 "cd /deployment && ./deploy.sh"

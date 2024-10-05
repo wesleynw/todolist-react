@@ -99,6 +99,7 @@ function Login() {
           </button>
         </form>
       </div>
+      <footer>10/4/24 Version</footer>
     </>
   );
 }
