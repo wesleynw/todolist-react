@@ -1,6 +1,6 @@
 # Todo list app with React & MongoDB
 
-Note: This project was originally for the Full Stack Development class @ UC Berkeley. The project was rebuilt in it's entirety by Wesley.
+Note: This project was originally for the Full Stack Development class @ UC Berkeley. The project was later rebuilt from scratch by Wesley.
 
 Allison Lin, Ishan Monie, Louisa Ng, & Wesley Weisenberger:
 
